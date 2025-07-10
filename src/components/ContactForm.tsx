@@ -35,9 +35,9 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-      <div className="mb-4">
-        <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
-          Nome
+      <div className="mb-6">
+        <label htmlFor="name" className="block text-yellow-400/80 font-light tracking-wider text-sm mb-2">
+          NOME
         </label>
         <input
           type="text"
@@ -46,14 +46,14 @@ export default function ContactForm() {
           value={formData.name}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-          placeholder="Seu nome"
+          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 text-white placeholder-white/30 transition-all duration-300"
+          placeholder="Seu nome completo"
         />
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
-          E-mail
+      <div className="mb-6">
+        <label htmlFor="email" className="block text-yellow-400/80 font-light tracking-wider text-sm mb-2">
+          E-MAIL
         </label>
         <input
           type="email"
@@ -62,14 +62,14 @@ export default function ContactForm() {
           value={formData.email}
           onChange={handleChange}
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 text-white placeholder-white/30 transition-all duration-300"
           placeholder="seu@email.com"
         />
       </div>
 
-      <div className="mb-4">
-        <label htmlFor="message" className="block text-gray-700 font-medium mb-2">
-          Mensagem
+      <div className="mb-6">
+        <label htmlFor="message" className="block text-yellow-400/80 font-light tracking-wider text-sm mb-2">
+          MENSAGEM
         </label>
         <textarea
           id="message"
@@ -78,7 +78,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           rows={4}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 text-white placeholder-white/30 resize-none transition-all duration-300"
           placeholder="Sua mensagem..."
         />
       </div>
@@ -86,17 +86,17 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`w-full py-3 px-6 rounded-lg font-medium text-white transition-colors ${
+        className={`relative w-full py-4 px-6 rounded-lg font-light tracking-wider overflow-hidden transition-all duration-300 ${
           isSubmitting 
-            ? 'bg-gray-400 cursor-not-allowed' 
-            : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
+            ? 'bg-white/10 cursor-not-allowed text-white/50' 
+            : 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:shadow-lg hover:shadow-yellow-400/30 transform hover:scale-[1.02]'
         }`}
       >
-        {isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}
+        {isSubmitting ? 'ENVIANDO...' : 'ENVIAR MENSAGEM'}
       </button>
 
       {submitMessage && (
-        <div className="mt-4 p-3 bg-green-100 border border-green-300 rounded-lg text-green-700 text-center">
+        <div className="mt-6 p-4 bg-yellow-400/10 border border-yellow-400/30 rounded-lg text-yellow-400 text-center font-light tracking-wider">
           {submitMessage}
         </div>
       )}
