@@ -53,7 +53,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent animate-pulse" />
         </div>
         
-        <div className="container mx-auto px-4 py-16 relative">
+        <div className="container mx-auto px-4 py-8 md:py-16 relative">
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,11 +94,7 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-600 blur-lg animate-pulse" />
               <div className="relative bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-medium px-8 py-3 rounded-full shadow-2xl">
-                <p className="flex items-center gap-2">
-                  <Gem className="w-5 h-5" />
-                  EM BREVE
-                  <Gem className="w-5 h-5" />
-                </p>
+                <p>EM BREVE</p>
               </div>
             </motion.div>
           </motion.div>
