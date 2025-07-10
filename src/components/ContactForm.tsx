@@ -21,20 +21,34 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitMessage('')
     
-    // Por enquanto, vamos simular o envio
-    // TODO: Integrar com serviço de email real (SendGrid, Resend, etc)
-    // O email deve ser enviado para: contato@ferreirasme.com
-    
-    setTimeout(() => {
-      console.log('Formulário enviado para: contato@ferreirasme.com', formData)
-      setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.')
-      setFormData({ name: '', email: '', message: '' })
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.')
+        setFormData({ name: '', email: '', message: '' })
+        
+        // Limpar mensagem após 5 segundos
+        setTimeout(() => setSubmitMessage(''), 5000)
+      } else {
+        setSubmitMessage(data.error || 'Erro ao enviar mensagem. Tente novamente.')
+      }
+    } catch (error) {
+      console.error('Erro ao enviar formulário:', error)
+      setSubmitMessage('Erro ao enviar mensagem. Tente novamente mais tarde.')
+    } finally {
       setIsSubmitting(false)
-      
-      // Limpar mensagem após 5 segundos
-      setTimeout(() => setSubmitMessage(''), 5000)
-    }, 1000)
+    }
   }
 
   return (
