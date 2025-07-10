@@ -1,0 +1,5 @@
+Version: 2.0
+Updated: 2025-01-10 15:15
+- Removed gem icons
+- Added image navigation
+- Fixed email integration
