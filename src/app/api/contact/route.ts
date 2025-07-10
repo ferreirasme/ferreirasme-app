@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     const data = await resend.emails.send({
       from: 'Ferreiras.Me <noreply@ferreiras.me>',
       to: 'contato@ferreirasme.com',
-      replyTo: email,
+      reply_to: email,
       subject: `Novo contato via site - ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
