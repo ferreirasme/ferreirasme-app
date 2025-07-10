@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Instagram, Mail, Sparkles, Crown, Gem } from 'lucide-react'
+import { Instagram, Mail, Sparkles } from 'lucide-react'
 import ContactForm from '@/components/ContactForm'
 import GoldParticles from '@/components/GoldParticles'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import ImageModal from '@/components/ImageModal'
 
 interface ImageItem {
   src: string
@@ -35,10 +35,16 @@ const images: ImageItem[] = [
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'modelo' | 'semijoia'>('all')
   const [showContact, setShowContact] = useState(false)
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
 
   const filteredImages = selectedCategory === 'all' 
     ? images 
     : images.filter(img => img.category === selectedCategory)
+
+  const handleImageClick = (image: ImageItem) => {
+    const index = images.findIndex(img => img.src === image.src)
+    setSelectedImageIndex(index)
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-white relative">
@@ -193,52 +199,48 @@ export default function Home() {
               transition={{ duration: 0.5, delay: index * 0.05 }}
               whileHover={{ y: -10, transition: { duration: 0.3 } }}
               className="group relative"
+              onClick={() => handleImageClick(image)}
             >
-              <Dialog>
-                <DialogTrigger asChild>
-                  <div className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer">
-                    {/* Gold border effect */}
-                    <div className="absolute inset-0 p-[1px] bg-gradient-to-br from-yellow-400 via-yellow-600 to-yellow-400 rounded-2xl">
-                      <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden">
-                        <Image
-                          src={image.src}
-                          alt={image.alt}
-                          fill
-                          className="object-cover transition-all duration-700 group-hover:scale-110"
-                        />
-                        
-                        {/* Luxury overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        
-                        {/* Shine effect */}
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                        </div>
-                        
-                        {/* Text overlay */}
-                        <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                          <p className="text-sm font-light tracking-wider text-white/90">{image.alt}</p>
-                          <div className="mt-2 h-[1px] w-12 bg-gradient-to-r from-yellow-400 to-transparent" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="max-w-5xl w-full p-0 overflow-hidden bg-black/95 border-yellow-400/20">
-                  <div className="relative w-full" style={{ height: '85vh' }}>
+              <div className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer">
+                {/* Gold border effect */}
+                <div className="absolute inset-0 p-[1px] bg-gradient-to-br from-yellow-400 via-yellow-600 to-yellow-400 rounded-2xl">
+                  <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden">
                     <Image
                       src={image.src}
                       alt={image.alt}
                       fill
-                      className="object-contain"
+                      className="object-cover transition-all duration-700 group-hover:scale-110"
                     />
+                    
+                    {/* Luxury overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Shine effect */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                    </div>
+                    
+                    {/* Text overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <p className="text-sm font-light tracking-wider text-white/90">{image.alt}</p>
+                      <div className="mt-2 h-[1px] w-12 bg-gradient-to-r from-yellow-400 to-transparent" />
+                    </div>
                   </div>
-                </DialogContent>
-              </Dialog>
+                </div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
       </div>
+
+      {/* Image Modal with Navigation */}
+      <ImageModal
+        images={images}
+        currentIndex={selectedImageIndex ?? 0}
+        isOpen={selectedImageIndex !== null}
+        onClose={() => setSelectedImageIndex(null)}
+        onNavigate={setSelectedImageIndex}
+      />
 
       {/* Luxury Footer */}
       <footer className="relative">
