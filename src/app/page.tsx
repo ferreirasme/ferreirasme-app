@@ -28,7 +28,6 @@ const images: ImageItem[] = [
   { src: '/images/modelos/9W0A6308.jpg', alt: 'Modelo exclusiva', category: 'modelo' },
   
   // Fotos das semijoias
-  { src: '/images/semijoias/1696288258266.jpg', alt: 'Conjunto rosa com anel', category: 'semijoia' },
   { src: '/images/semijoias/1696288412533.jpg', alt: 'Semijoias douradas', category: 'semijoia' },
   { src: '/images/semijoias/1696288412611.jpg', alt: 'Coleção exclusiva', category: 'semijoia' },
 ]
@@ -72,8 +71,8 @@ export default function Home() {
               <Image
                 src="/logo.png"
                 alt="Ferreiras.Me"
-                width={280}
-                height={120}
+                width={380}
+                height={160}
                 className="relative drop-shadow-2xl"
               />
             </motion.div>
@@ -82,11 +81,9 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="text-xl md:text-2xl text-yellow-400 mb-6 flex items-center justify-center gap-3 font-light tracking-wider"
+              className="text-xl md:text-2xl text-yellow-400 mb-6 font-light tracking-wider"
             >
-              <Crown className="w-6 h-6" />
               SEMIJOIAS EXCLUSIVAS
-              <Crown className="w-6 h-6" />
             </motion.p>
             
             <motion.div 
@@ -117,7 +114,7 @@ export default function Home() {
           className="flex flex-wrap justify-center gap-6 mb-12"
         >
           <a
-            href="https://instagram.com/ferreiras.me"
+            href="https://www.instagram.com/ferreirasme/"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative overflow-hidden"

@@ -22,8 +22,12 @@ export default function ContactForm() {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulação de envio - você pode integrar com um serviço de email depois
+    // Por enquanto, vamos simular o envio
+    // TODO: Integrar com serviço de email real (SendGrid, Resend, etc)
+    // O email deve ser enviado para: contato@ferreirasme.com
+    
     setTimeout(() => {
+      console.log('Formulário enviado para: contato@ferreirasme.com', formData)
       setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.')
       setFormData({ name: '', email: '', message: '' })
       setIsSubmitting(false)
