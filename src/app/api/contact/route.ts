@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
     // Enviar email via Resend
     const data = await resend.emails.send({
-      from: 'Ferreiras.Me <onboarding@resend.dev>',
+      from: 'Ferreiras.Me <noreply@ferreiras.me>',
       to: 'contato@ferreirasme.com',
       reply_to: email,
       subject: `Novo contato via site - ${name}`,
