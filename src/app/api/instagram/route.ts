@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     const instagramUsername = 'ferreirasme'
     
     // Try to get access token from cookie first, then from environment
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const tokenFromCookie = cookieStore.get('instagram_token')?.value
     const accessToken = tokenFromCookie || process.env.INSTAGRAM_ACCESS_TOKEN
     

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { onCLS, onFCP, onFID, onLCP, onTTFB, onINP } from 'web-vitals'
+import { onCLS, onFCP, onLCP, onTTFB, onINP } from 'web-vitals'
 
 interface MetricData {
   name: string
@@ -38,11 +38,10 @@ export default function PerformanceMonitor() {
     // Core Web Vitals
     onCLS((metric) => logMetric(metric))
     onFCP((metric) => logMetric(metric))
-    onFID((metric) => logMetric(metric))
     onLCP((metric) => logMetric(metric))
     onTTFB((metric) => logMetric(metric))
     
-    // Interaction to Next Paint (new metric)
+    // Interaction to Next Paint (replaces FID)
     onINP((metric) => logMetric(metric))
 
     // Additional performance monitoring
