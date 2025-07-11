@@ -1,25 +1,12 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Montserrat } from 'next/font/google'
-import dynamic from 'next/dynamic'
 import './globals.css'
 import { AnalyticsProvider } from '@/components/AnalyticsProvider'
 import ThemeProvider from '@/components/ThemeProvider'
 import { CartProvider } from '@/contexts/CartContext'
-
-const ServiceWorkerRegistration = dynamic(
-  () => import('@/components/ServiceWorkerRegistration'),
-  { ssr: false }
-)
-
-const ResourcePrefetch = dynamic(
-  () => import('@/components/ResourcePrefetch'),
-  { ssr: false }
-)
-
-const PerformanceMonitor = dynamic(
-  () => import('@/components/PerformanceMonitor'),
-  { ssr: false }
-)
+import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration'
+import ResourcePrefetch from '@/components/ResourcePrefetch'
+import PerformanceMonitor from '@/components/PerformanceMonitor'
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
