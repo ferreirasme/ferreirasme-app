@@ -21,7 +21,7 @@ export default function PerformanceMonitor() {
       console.log(`[Web Vitals] ${metric.name}: ${metric.value.toFixed(2)} (${metric.rating})`)
       
       // Send to analytics endpoint
-      if (typeof window !== 'undefined' && 'navigator' in window && navigator.sendBeacon) {
+      if (typeof window !== 'undefined' && 'navigator' in window && navigator.sendBeacon !== undefined) {
         const analyticsData = {
           metric: metric.name,
           value: metric.value,
