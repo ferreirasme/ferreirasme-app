@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       success: true, 
       message: 'Email enviado com sucesso!',
       debug: {
-        emailId: data.id,
+        emailId: (data as any).id || 'enviado',
         from: 'onboarding@resend.dev',
         to: 'contato@ferreirasme.com'
       }
