@@ -7,6 +7,8 @@ export async function POST(request: Request) {
   try {
     const { name, email, message } = await request.json()
 
+    console.log('Recebendo contato:', { name, email, message })
+
     // Validação básica
     if (!name || !email || !message) {
       return NextResponse.json(
@@ -14,6 +16,9 @@ export async function POST(request: Request) {
         { status: 400 }
       )
     }
+
+    console.log('Enviando email via Resend...')
+    console.log('API Key presente:', !!process.env.RESEND_API_KEY)
 
     // Enviar email via Resend
     const data = await resend.emails.send({
@@ -48,15 +53,25 @@ export async function POST(request: Request) {
       `
     })
 
+    console.log('Resposta do Resend:', data)
+
     return NextResponse.json({ 
       success: true, 
-      message: 'Email enviado com sucesso!' 
+      message: 'Email enviado com sucesso!',
+      debug: {
+        emailId: data.id,
+        from: 'onboarding@resend.dev',
+        to: 'contato@ferreirasme.com'
+      }
     })
     
   } catch (error) {
     console.error('Erro ao enviar email:', error)
     return NextResponse.json(
-      { error: 'Erro ao enviar email. Tente novamente mais tarde.' },
+      { 
+        error: 'Erro ao enviar email. Tente novamente mais tarde.',
+        debug: error instanceof Error ? error.message : 'Erro desconhecido'
+      },
       { status: 500 }
     )
   }

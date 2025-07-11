@@ -35,12 +35,14 @@ export default function ContactForm() {
       const data = await response.json()
 
       if (response.ok) {
+        console.log('Email enviado com sucesso:', data.debug)
         setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.')
         setFormData({ name: '', email: '', message: '' })
         
         // Limpar mensagem após 5 segundos
         setTimeout(() => setSubmitMessage(''), 5000)
       } else {
+        console.error('Erro na resposta:', data.debug)
         setSubmitMessage(data.error || 'Erro ao enviar mensagem. Tente novamente.')
       }
     } catch (error) {
