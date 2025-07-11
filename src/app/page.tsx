@@ -33,13 +33,8 @@ const images: ImageItem[] = [
 ]
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState<'all' | 'modelo' | 'semijoia'>('all')
   const [showContact, setShowContact] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
-
-  const filteredImages = selectedCategory === 'all' 
-    ? images 
-    : images.filter(img => img.category === selectedCategory)
 
   const handleImageClick = (image: ImageItem) => {
     const index = images.findIndex(img => img.src === image.src)
@@ -157,40 +152,12 @@ export default function Home() {
 
       {/* Luxury Gallery Section */}
       <div className="container mx-auto px-4 pb-20">
-        {/* Elegant Filter */}
-        <div className="flex justify-center gap-4 mb-12">
-          {[
-            { value: 'all', label: 'TODAS' },
-            { value: 'modelo', label: 'MODELOS' },
-            { value: 'semijoia', label: 'JOIAS' }
-          ].map((filter) => (
-            <button
-              key={filter.value}
-              onClick={() => setSelectedCategory(filter.value as any)}
-              className={`relative px-8 py-3 font-light tracking-wider transition-all duration-300 ${
-                selectedCategory === filter.value 
-                  ? 'text-black' 
-                  : 'text-white/70 hover:text-white'
-              }`}
-            >
-              {selectedCategory === filter.value && (
-                <motion.div
-                  layoutId="activeFilter"
-                  className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full"
-                  transition={{ type: "spring", duration: 0.6 }}
-                />
-              )}
-              <span className="relative">{filter.label}</span>
-            </button>
-          ))}
-        </div>
-
         {/* Luxury Image Gallery */}
         <motion.div 
           layout
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
         >
-          {filteredImages.map((image, index) => (
+          {images.map((image, index) => (
             <motion.div
               key={image.src}
               layout
