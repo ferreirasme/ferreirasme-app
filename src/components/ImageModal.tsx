@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { analytics } from '@/lib/analytics/analytics-events'
 
 interface ImageItem {
   src: string
@@ -21,6 +22,14 @@ interface ImageModalProps {
 }
 
 export default function ImageModal({ images, currentIndex, isOpen, onClose, onNavigate }: ImageModalProps) {
+  // Track image view when modal opens
+  useEffect(() => {
+    if (isOpen && images[currentIndex]) {
+      const image = images[currentIndex]
+      analytics.engagement.imageView(image.alt, image.category)
+    }
+  }, [isOpen, currentIndex, images])
+
   // Navegação por teclado
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -53,6 +62,8 @@ export default function ImageModal({ images, currentIndex, isOpen, onClose, onNa
               fill
               className="object-contain"
               priority
+              sizes="100vw"
+              quality={90}
             />
           </div>
 

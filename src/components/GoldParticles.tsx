@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 
 interface Particle {
@@ -12,30 +12,53 @@ interface Particle {
   delay: number
 }
 
+// Generate particles only once
+const generateParticles = (count: number): Particle[] => {
+  const particles: Particle[] = []
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 4 + 2,
+      duration: Math.random() * 20 + 10,
+      delay: Math.random() * 5,
+    })
+  }
+  return particles
+}
+
 export default function GoldParticles() {
-  const [particles, setParticles] = useState<Particle[]>([])
+  const [isVisible, setIsVisible] = useState(false)
+  
+  // Reduce particle count for better performance
+  const particles = useMemo(() => generateParticles(20), [])
 
   useEffect(() => {
-    const newParticles: Particle[] = []
-    for (let i = 0; i < 50; i++) {
-      newParticles.push({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 4 + 2,
-        duration: Math.random() * 20 + 10,
-        delay: Math.random() * 5,
-      })
+    // Only render particles after initial page load
+    const timer = setTimeout(() => {
+      setIsVisible(true)
+    }, 100)
+
+    // Reduce particles on low-end devices
+    if ('matchMedia' in window) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+      if (prefersReducedMotion.matches) {
+        return () => clearTimeout(timer)
+      }
     }
-    setParticles(newParticles)
+
+    return () => clearTimeout(timer)
   }, [])
+
+  if (!isVisible) return null
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute rounded-full"
+          className="absolute rounded-full will-change-transform"
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
@@ -46,7 +69,7 @@ export default function GoldParticles() {
           }}
           animate={{
             y: [0, -100, 0],
-            opacity: [0, 1, 0],
+            opacity: [0, 0.8, 0],
           }}
           transition={{
             duration: particle.duration,

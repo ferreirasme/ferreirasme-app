@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send } from 'lucide-react'
+import { analytics, trackConversion } from '@/lib/analytics/analytics-events'
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('')
@@ -10,6 +11,9 @@ export default function NewsletterForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Track form start
+    analytics.form.start('Newsletter Form')
     
     // Por enquanto, apenas simula o envio
     setStatus('Enviando...')
@@ -19,11 +23,22 @@ export default function NewsletterForm() {
       await new Promise(resolve => setTimeout(resolve, 1000))
       
       setStatus('Obrigado! Você será avisado em primeira mão!')
+      
+      // Track successful newsletter signup and conversion
+      analytics.engagement.newsletterSignup(email, true)
+      trackConversion('Newsletter Signup', undefined, {
+        form_name: 'Newsletter Form',
+        user_email_hash: btoa(email), // Basic hash for privacy
+      })
+      
       setEmail('')
       
       setTimeout(() => setStatus(''), 5000)
     } catch (error) {
       setStatus('Erro ao cadastrar. Tente novamente.')
+      
+      // Track failed newsletter signup
+      analytics.engagement.newsletterSignup(email, false)
     }
   }
 

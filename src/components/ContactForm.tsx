@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { analytics, trackConversion } from '@/lib/analytics/analytics-events'
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -16,12 +17,18 @@ export default function ContactForm() {
       ...formData,
       [e.target.name]: e.target.value
     })
+    
+    // Track form field interaction
+    analytics.form.fieldInteraction('Contact Form', e.target.name)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setSubmitMessage('')
+    
+    // Track form submission start
+    analytics.form.start('Contact Form')
     
     try {
       const response = await fetch('/api/contact', {
@@ -38,14 +45,27 @@ export default function ContactForm() {
         setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.')
         setFormData({ name: '', email: '', message: '' })
         
+        // Track successful form submission and conversion
+        analytics.form.submit('Contact Form', true)
+        trackConversion('Contact Form Submission', undefined, {
+          form_name: 'Contact Form',
+          user_email: formData.email,
+        })
+        
         // Limpar mensagem após 5 segundos
         setTimeout(() => setSubmitMessage(''), 5000)
       } else {
         setSubmitMessage(data.error || 'Erro ao enviar mensagem. Tente novamente.')
+        
+        // Track failed form submission
+        analytics.form.submit('Contact Form', false)
       }
     } catch (error) {
       console.error('Erro ao enviar formulário:', error)
       setSubmitMessage('Erro ao enviar mensagem. Tente novamente mais tarde.')
+      
+      // Track form submission error
+      analytics.form.submit('Contact Form', false)
     } finally {
       setIsSubmitting(false)
     }

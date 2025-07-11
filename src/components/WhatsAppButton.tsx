@@ -2,12 +2,20 @@
 
 import { motion } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
+import { analytics, trackConversion } from '@/lib/analytics/analytics-events'
 
 export default function WhatsAppButton() {
   const whatsappNumber = '351999999999' // Substitua pelo número real de Portugal
   const message = 'Olá! Gostaria de saber mais sobre as semijoias Ferreiras.Me'
   
   const handleClick = () => {
+    // Track WhatsApp click and conversion
+    analytics.engagement.whatsappClick()
+    trackConversion('WhatsApp Contact', undefined, {
+      contact_method: 'whatsapp',
+      button_location: 'fixed_bottom_right',
+    })
+    
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
     window.open(url, '_blank')
   }

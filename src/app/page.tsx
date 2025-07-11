@@ -1,16 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { Instagram, Mail, Sparkles } from 'lucide-react'
-import ContactForm from '@/components/ContactForm'
-import GoldParticles from '@/components/GoldParticles'
-import ImageModal from '@/components/ImageModal'
-import CountdownTimer from '@/components/CountdownTimer'
-import WhatsAppButton from '@/components/WhatsAppButton'
-import NewsletterForm from '@/components/NewsletterForm'
-import BrandHighlights from '@/components/BrandHighlights'
+import OptimizedImage from '@/components/OptimizedImage'
+import Navigation from '@/components/Navigation'
+
+// Dynamic imports for better code splitting
+const ContactForm = dynamic(() => import('@/components/ContactForm'), {
+  loading: () => <div className="animate-pulse bg-white/10 h-96 rounded-lg" />
+})
+const GoldParticles = dynamic(() => import('@/components/GoldParticles'), {
+  ssr: false
+})
+const ImageModal = dynamic(() => import('@/components/ImageModal'))
+const CountdownTimer = dynamic(() => import('@/components/CountdownTimer'))
+const WhatsAppButton = dynamic(() => import('@/components/WhatsAppButton'))
+const NewsletterForm = dynamic(() => import('@/components/NewsletterForm'))
+const BrandHighlights = dynamic(() => import('@/components/BrandHighlights'))
+const InstagramFeed = dynamic(() => import('@/components/InstagramFeed'), {
+  loading: () => <div className="animate-pulse bg-white/10 h-96 rounded-lg" />
+})
+const TestimonialsSection = dynamic(() => import('@/components/TestimonialsSection'), {
+  loading: () => <div className="animate-pulse bg-white/10 h-96 rounded-lg" />
+})
 
 interface ImageItem {
   src: string
@@ -20,25 +35,49 @@ interface ImageItem {
 
 const images: ImageItem[] = [
   // Fotos das modelos
-  { src: '/images/modelos/9W0A5115.jpg', alt: 'Modelo com brinco dourado', category: 'modelo' },
-  { src: '/images/modelos/9W0A5131.jpg', alt: 'Modelo com acessórios', category: 'modelo' },
-  { src: '/images/modelos/9W0A5170.jpg', alt: 'Modelo perfil', category: 'modelo' },
-  { src: '/images/modelos/9W0A5228.jpg', alt: 'Modelo com semijoias', category: 'modelo' },
-  { src: '/images/modelos/9W0A5378.jpg', alt: 'Modelo elegante', category: 'modelo' },
-  { src: '/images/modelos/9W0A5720.jpg', alt: 'Modelo fashion', category: 'modelo' },
-  { src: '/images/modelos/9W0A5751.jpg', alt: 'Modelo estilo', category: 'modelo' },
-  { src: '/images/modelos/9W0A5805.jpg', alt: 'Modelo luxo', category: 'modelo' },
-  { src: '/images/modelos/9W0A6270.jpg', alt: 'Modelo sofisticada', category: 'modelo' },
-  { src: '/images/modelos/9W0A6308.jpg', alt: 'Modelo exclusiva', category: 'modelo' },
+  { src: '/images/modelos/9W0A5115.jpg', alt: 'Modelo elegante usando brinco dourado exclusivo Ferreiras.Me', category: 'modelo' },
+  { src: '/images/modelos/9W0A5131.jpg', alt: 'Modelo sofisticada com conjunto de semijoias douradas Ferreiras.Me', category: 'modelo' },
+  { src: '/images/modelos/9W0A5170.jpg', alt: 'Perfil de modelo exibindo brincos de design exclusivo Ferreiras.Me', category: 'modelo' },
+  { src: '/images/modelos/9W0A5228.jpg', alt: 'Modelo usando coleção completa de semijoias premium Ferreiras.Me', category: 'modelo' },
+  { src: '/images/modelos/9W0A5378.jpg', alt: 'Modelo elegante com colar e brincos dourados exclusivos Ferreiras.Me', category: 'modelo' },
+  { src: '/images/modelos/9W0A5720.jpg', alt: 'Modelo fashion destacando tendências em semijoias Ferreiras.Me', category: 'modelo' },
+  { src: '/images/modelos/9W0A5751.jpg', alt: 'Modelo com estilo único usando peças exclusivas Ferreiras.Me', category: 'modelo' },
+  { src: '/images/modelos/9W0A5805.jpg', alt: 'Modelo luxuosa com conjunto premium de semijoias Ferreiras.Me', category: 'modelo' },
+  { src: '/images/modelos/9W0A6270.jpg', alt: 'Modelo sofisticada exibindo joias artesanais exclusivas Ferreiras.Me', category: 'modelo' },
+  { src: '/images/modelos/9W0A6308.jpg', alt: 'Modelo com peças exclusivas da coleção limitada Ferreiras.Me', category: 'modelo' },
   
   // Fotos das semijoias
-  { src: '/images/semijoias/1696288412533.jpg', alt: 'Semijoias douradas', category: 'semijoia' },
-  { src: '/images/semijoias/1696288412611.jpg', alt: 'Coleção exclusiva', category: 'semijoia' },
+  { src: '/images/semijoias/1696288412533.jpg', alt: 'Coleção de semijoias douradas premium com acabamento de alta qualidade Ferreiras.Me', category: 'semijoia' },
+  { src: '/images/semijoias/1696288412611.jpg', alt: 'Coleção exclusiva de semijoias artesanais com design único Ferreiras.Me', category: 'semijoia' },
 ]
 
 export default function Home() {
   const [showContact, setShowContact] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
+  const [notification, setNotification] = useState<{ type: 'success' | 'error', message: string } | null>(null)
+
+  useEffect(() => {
+    // Check URL parameters for Instagram OAuth callback
+    const params = new URLSearchParams(window.location.search)
+    const instagramStatus = params.get('instagram')
+    const error = params.get('error')
+    
+    if (instagramStatus === 'connected') {
+      setNotification({ type: 'success', message: 'Instagram conectado com sucesso!' })
+      // Clean URL
+      window.history.replaceState({}, document.title, window.location.pathname)
+    } else if (error) {
+      setNotification({ type: 'error', message: `Erro ao conectar Instagram: ${error}` })
+      // Clean URL
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+    
+    // Auto-hide notification after 5 seconds
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [])
 
   const handleImageClick = (image: ImageItem) => {
     const index = images.findIndex(img => img.src === image.src)
@@ -46,9 +85,27 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-white relative">
-      <GoldParticles />
-      <WhatsAppButton />
+    <>
+      <Navigation />
+      <main className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-white relative">
+        <GoldParticles />
+        <WhatsAppButton />
+      
+      {/* Notification Toast */}
+      {notification && (
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${
+            notification.type === 'success' 
+              ? 'bg-green-500/20 border border-green-500/30 text-green-400' 
+              : 'bg-red-500/20 border border-red-500/30 text-red-400'
+          }`}
+        >
+          {notification.message}
+        </motion.div>
+      )}
       
       {/* Luxury Header */}
       <header className="relative overflow-hidden">
@@ -59,7 +116,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent animate-pulse" />
         </div>
         
-        <div className="container mx-auto px-4 py-8 md:py-16 relative">
+        <div className="container mx-auto px-4 pt-32 pb-16 relative">
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -76,21 +133,22 @@ export default function Home() {
               <div className="absolute inset-0 blur-3xl bg-yellow-400/30 animate-pulse" />
               <Image
                 src="/logo.png"
-                alt="Ferreiras.Me"
+                alt="Ferreiras.Me - Logo da marca de semijoias exclusivas"
                 width={380}
                 height={160}
                 className="relative drop-shadow-2xl"
+                priority
               />
             </motion.div>
             
-            <motion.p 
+            <motion.h1 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
               className="text-xl md:text-2xl text-yellow-400 mb-6 font-light tracking-wider"
             >
               SEMIJOIAS EXCLUSIVAS
-            </motion.p>
+            </motion.h1>
             
             <motion.div 
               initial={{ scale: 0.9, opacity: 0 }}
@@ -128,6 +186,14 @@ export default function Home() {
       {/* Newsletter Section */}
       <div className="container mx-auto px-4 py-12 max-w-2xl">
         <NewsletterForm />
+      </div>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+      
+      {/* Instagram Feed Section */}
+      <div className="container mx-auto px-4 py-16">
+        <InstagramFeed limit={6} />
       </div>
 
       {/* Elegant Actions */}
@@ -170,9 +236,9 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1 }}
             className="max-w-md mx-auto mb-16 bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20"
           >
-            <h3 className="text-2xl font-light tracking-wider text-center mb-6 text-yellow-400">
+            <h2 className="text-2xl font-light tracking-wider text-center mb-6 text-yellow-400">
               ENTRE EM CONTATO
-            </h3>
+            </h2>
             <ContactForm />
           </motion.div>
         )}
@@ -221,11 +287,13 @@ export default function Home() {
                 {/* Gold border effect */}
                 <div className="absolute inset-0 p-[1px] bg-gradient-to-br from-yellow-400 via-yellow-600 to-yellow-400 rounded-2xl">
                   <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden">
-                    <Image
+                    <OptimizedImage
                       src={image.src}
                       alt={image.alt}
                       fill
                       className="object-cover transition-all duration-700 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      quality={80}
                     />
                     
                     {/* Luxury overlay */}
@@ -265,10 +333,11 @@ export default function Home() {
           <div className="container mx-auto px-4 py-12 text-center">
             <Image
               src="/logo.png"
-              alt="Ferreiras.Me"
+              alt="Ferreiras.Me - Logo rodapé"
               width={180}
               height={80}
               className="mx-auto mb-6 opacity-80"
+              loading="lazy"
             />
             <p className="text-yellow-400/80 font-light tracking-wider mb-2">FERREIRAS.ME</p>
             <p className="text-white/50 text-sm font-light">© 2024 - Todos os direitos reservados</p>
@@ -281,6 +350,7 @@ export default function Home() {
         </div>
       </footer>
     </main>
+    </>
   )
 }// Force redeploy Thu Jul 10 15:10:09 BST 2025
 // Force deploy after public: Thu Jul 10 15:20:04 BST 2025

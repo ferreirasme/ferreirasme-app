@@ -1,0 +1,25 @@
+{
+  "name": "Ferreiras.Me - Semijoias Exclusivas",
+  "short_name": "Ferreiras.Me",
+  "description": "Semijoias exclusivas com design único",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#171717",
+  "theme_color": "#facc15",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["shopping", "lifestyle"],
+  "lang": "pt-BR"
+}
