@@ -7,6 +7,10 @@ import { Instagram, Mail, Sparkles } from 'lucide-react'
 import ContactForm from '@/components/ContactForm'
 import GoldParticles from '@/components/GoldParticles'
 import ImageModal from '@/components/ImageModal'
+import CountdownTimer from '@/components/CountdownTimer'
+import WhatsAppButton from '@/components/WhatsAppButton'
+import NewsletterForm from '@/components/NewsletterForm'
+import BrandHighlights from '@/components/BrandHighlights'
 
 interface ImageItem {
   src: string
@@ -44,6 +48,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-white relative">
       <GoldParticles />
+      <WhatsAppButton />
       
       {/* Luxury Header */}
       <header className="relative overflow-hidden">
@@ -102,6 +107,29 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Countdown Section */}
+      <div className="container mx-auto px-4 py-12">
+        <CountdownTimer />
+      </div>
+
+      {/* Brand Highlights */}
+      <div className="container mx-auto px-4 py-12">
+        <motion.h2 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="text-3xl font-light tracking-wider text-center mb-12 text-yellow-400"
+        >
+          POR QUE ESCOLHER FERREIRAS.ME
+        </motion.h2>
+        <BrandHighlights />
+      </div>
+
+      {/* Newsletter Section */}
+      <div className="container mx-auto px-4 py-12 max-w-2xl">
+        <NewsletterForm />
+      </div>
+
       {/* Elegant Actions */}
       <div className="container mx-auto px-4 py-12">
         <motion.div 
@@ -148,6 +176,27 @@ export default function Home() {
             <ContactForm />
           </motion.div>
         )}
+      </div>
+
+      {/* Emotional Call */}
+      <div className="container mx-auto px-4 py-16 text-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl mx-auto"
+        >
+          <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
+            Porque cada peça carrega uma{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
+              preciosa história
+            </span>
+          </h2>
+          <p className="text-xl text-white/70 font-light">
+            Nossas semijoias são mais que acessórios. São memórias, momentos e emoções 
+            transformadas em joias exclusivas que acompanham sua jornada.
+          </p>
+        </motion.div>
       </div>
 
       {/* Luxury Gallery Section */}
