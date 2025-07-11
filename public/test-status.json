@@ -1,0 +1,18 @@
+{
+  "version": "2.1",
+  "timestamp": "2025-01-10 15:22",
+  "features": {
+    "gem_icons_removed": true,
+    "image_navigation": true,
+    "keyboard_navigation": true,
+    "email_integration": true,
+    "resend_configured": true
+  },
+  "changes": [
+    "Removidos ícones de gemas do EM BREVE",
+    "Adicionada navegação com setas nas fotos",
+    "Navegação por teclado (← → ESC)",
+    "Email configurado com Resend",
+    "Usar onboarding@resend.dev temporariamente"
+  ]
+}
