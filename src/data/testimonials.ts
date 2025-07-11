@@ -6,20 +6,18 @@ export const testimonials: Testimonial[] = [
     name: 'Maria Silva',
     avatar: '/images/modelos/9W0A5115.jpg',
     rating: 5,
-    comment: 'As joias da Ferreiras.Me são simplesmente deslumbrantes! A qualidade é excepcional e o atendimento é impecável. Recebi muitos elogios usando o Colar Imperatriz.',
+    comment: 'As joias da Ferreiras.Me são simplesmente deslumbrantes! A qualidade é excepcional e o atendimento é impecável. Recebi muitos elogios usando as peças.',
     date: new Date('2024-11-15'),
     verified: true,
-    product: 'Colar Imperatriz Dourado'
   },
   {
     id: '2',
     name: 'Ana Costa',
     avatar: '/images/modelos/9W0A5131.jpg',
     rating: 5,
-    comment: 'Comprei o conjunto Versailles para meu casamento e foi perfeito! As peças são elegantes, sofisticadas e com acabamento de primeira qualidade.',
+    comment: 'Escolhi as joias da Ferreiras.Me para meu casamento e foi perfeito! As peças são elegantes, sofisticadas e com acabamento de primeira qualidade.',
     date: new Date('2024-11-20'),
     verified: true,
-    product: 'Conjunto Versailles'
   },
   {
     id: '3',
@@ -35,20 +33,18 @@ export const testimonials: Testimonial[] = [
     name: 'Patricia Oliveira',
     avatar: '/images/modelos/9W0A5228.jpg',
     rating: 5,
-    comment: 'O Brinco Cascata Real é uma obra de arte! Os cristais brilham intensamente e o acabamento em ouro rosé é lindo. Vale cada centavo.',
+    comment: 'Os brincos são uma obra de arte! Os cristais brilham intensamente e o acabamento em ouro rosé é lindo. Qualidade incomparável.',
     date: new Date('2024-12-01'),
     verified: true,
-    product: 'Brinco Cascata Real'
   },
   {
     id: '5',
     name: 'Carla Mendes',
     avatar: '/images/modelos/9W0A5378.jpg',
     rating: 5,
-    comment: 'Presenteei minha filha com a Pulseira Infinity e ela amou! Delicada, elegante e perfeita para o dia a dia. A entrega foi super rápida.',
+    comment: 'Presenteei minha filha com uma pulseira e ela amou! Delicada, elegante e perfeita para o dia a dia. O atendimento foi excelente.',
     date: new Date('2024-12-05'),
     verified: true,
-    product: 'Pulseira Infinity Premium'
   },
   {
     id: '6',
@@ -64,7 +60,7 @@ export const testimonials: Testimonial[] = [
     name: 'Fernanda Lima',
     avatar: '/images/modelos/9W0A5751.jpg',
     rating: 5,
-    comment: 'As joias chegaram em uma embalagem linda, perfeita para presente! A qualidade superou minhas expectativas. Com certeza voltarei a comprar.',
+    comment: 'As joias chegaram em uma embalagem linda, perfeita para presente! A qualidade superou minhas expectativas. Recomendo a todos.',
     date: new Date('2024-12-15'),
     verified: true
   },
@@ -73,9 +69,8 @@ export const testimonials: Testimonial[] = [
     name: 'Amanda Santos',
     avatar: '/images/modelos/9W0A5805.jpg',
     rating: 5,
-    comment: 'O Anel Solitário é perfeito! Usei no meu noivado e todos ficaram impressionados. Parece uma joia verdadeira, com brilho e elegância únicos.',
+    comment: 'O anel é perfeito! Usei no meu noivado e todos ficaram impressionados. Parece uma joia verdadeira, com brilho e elegância únicos.',
     date: new Date('2024-12-18'),
     verified: true,
-    product: 'Anel Solitário Luxo'
   }
 ]

@@ -3,7 +3,6 @@ import { Playfair_Display, Montserrat } from 'next/font/google'
 import './globals.css'
 import { AnalyticsProvider } from '@/components/AnalyticsProvider'
 import ThemeProvider from '@/components/ThemeProvider'
-import { CartProvider } from '@/contexts/CartContext'
 import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration'
 import ResourcePrefetch from '@/components/ResourcePrefetch'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
@@ -87,7 +86,6 @@ export default function RootLayout({
     url: 'https://ferreirasme.com',
     logo: 'https://ferreirasme.com/logo.png',
     image: 'https://ferreirasme.com/logo.png',
-    priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'BR',
@@ -96,11 +94,6 @@ export default function RootLayout({
     sameAs: [
       'https://www.instagram.com/ferreirasme/',
     ],
-    offers: {
-      '@type': 'AggregateOffer',
-      priceCurrency: 'BRL',
-      availability: 'https://schema.org/ComingSoon',
-    },
   }
 
   return (
@@ -121,14 +114,12 @@ export default function RootLayout({
       </head>
       <body className={`${playfair.variable} ${montserrat.variable} font-sans`}>
         <ThemeProvider>
-          <CartProvider>
-            <AnalyticsProvider>
-              {children}
-              <ServiceWorkerRegistration />
-              <ResourcePrefetch />
-              <PerformanceMonitor />
-            </AnalyticsProvider>
-          </CartProvider>
+          <AnalyticsProvider>
+            {children}
+            <ServiceWorkerRegistration />
+            <ResourcePrefetch />
+            <PerformanceMonitor />
+          </AnalyticsProvider>
         </ThemeProvider>
       </body>
     </html>

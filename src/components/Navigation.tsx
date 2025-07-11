@@ -4,10 +4,9 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Instagram, Mail, Phone, ShoppingBag, Heart, User, Search } from 'lucide-react'
+import { Menu, X, Instagram, Mail, Phone } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import ThemeToggle from './ThemeToggle'
-import { useCart } from '@/contexts/CartContext'
 
 interface NavigationProps {
   className?: string
@@ -15,16 +14,12 @@ interface NavigationProps {
 
 const navItems = [
   { name: 'Início', href: '/' },
-  { name: 'Catálogo', href: '/catalogo' },
-  { name: 'Sobre', href: '/sobre' },
   { name: 'Contato', href: '#contato' },
 ]
 
 export default function Navigation({ className }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
-  const { getItemsCount } = useCart()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,45 +69,6 @@ export default function Navigation({ className }: NavigationProps) {
             <div className="hidden lg:flex items-center space-x-6">
               <ThemeToggle />
               
-              <button
-                onClick={() => setSearchOpen(!searchOpen)}
-                className="text-white/80 hover:text-yellow-400 transition-colors"
-                aria-label="Buscar"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-              
-              <Link
-                href="/favoritos"
-                className="text-white/80 hover:text-yellow-400 transition-colors relative"
-                aria-label="Favoritos"
-              >
-                <Heart className="w-5 h-5" />
-                <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  0
-                </span>
-              </Link>
-
-              <Link
-                href="/carrinho"
-                className="text-white/80 hover:text-yellow-400 transition-colors relative"
-                aria-label="Carrinho"
-              >
-                <ShoppingBag className="w-5 h-5" />
-                {getItemsCount() > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                    {getItemsCount()}
-                  </span>
-                )}
-              </Link>
-
-              <Link
-                href="/conta"
-                className="text-white/80 hover:text-yellow-400 transition-colors"
-                aria-label="Minha Conta"
-              >
-                <User className="w-5 h-5" />
-              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -125,33 +81,6 @@ export default function Navigation({ className }: NavigationProps) {
             </button>
           </div>
 
-          {/* Search Bar */}
-          <AnimatePresence>
-            {searchOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="border-t border-white/10 overflow-hidden"
-              >
-                <div className="py-4">
-                  <form className="relative max-w-2xl mx-auto">
-                    <input
-                      type="search"
-                      placeholder="Buscar produtos..."
-                      className="w-full bg-white/10 backdrop-blur-md text-white placeholder-white/50 px-6 py-3 pr-12 rounded-full border border-white/20 focus:border-yellow-400 focus:outline-none transition-colors"
-                    />
-                    <button
-                      type="submit"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-yellow-400 text-black p-2 rounded-full hover:bg-yellow-500 transition-colors"
-                    >
-                      <Search className="w-4 h-4" />
-                    </button>
-                  </form>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </nav>
 
@@ -196,17 +125,6 @@ export default function Navigation({ className }: NavigationProps) {
                   />
                 </div>
 
-                {/* Search Mobile */}
-                <form className="mb-8">
-                  <div className="relative">
-                    <input
-                      type="search"
-                      placeholder="Buscar..."
-                      className="w-full bg-white/10 text-white placeholder-white/50 px-4 py-3 pr-10 rounded-full border border-white/20 focus:border-yellow-400 focus:outline-none transition-colors text-sm"
-                    />
-                    <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
-                  </div>
-                </form>
 
                 {/* Mobile Navigation */}
                 <nav className="mb-8">
@@ -228,45 +146,6 @@ export default function Navigation({ className }: NavigationProps) {
                   ))}
                 </nav>
 
-                {/* Mobile Actions */}
-                <div className="space-y-4 mb-8">
-                  <Link
-                    href="/favoritos"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between py-3 text-white/80 hover:text-yellow-400 transition-colors"
-                  >
-                    <span className="flex items-center space-x-3">
-                      <Heart className="w-5 h-5" />
-                      <span>Favoritos</span>
-                    </span>
-                    <span className="bg-yellow-400/20 text-yellow-400 text-sm px-2 py-1 rounded">0</span>
-                  </Link>
-
-                  <Link
-                    href="/carrinho"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between py-3 text-white/80 hover:text-yellow-400 transition-colors"
-                  >
-                    <span className="flex items-center space-x-3">
-                      <ShoppingBag className="w-5 h-5" />
-                      <span>Carrinho</span>
-                    </span>
-                    {getItemsCount() > 0 && (
-                      <span className="bg-yellow-400/20 text-yellow-400 text-sm px-2 py-1 rounded">
-                        {getItemsCount()}
-                      </span>
-                    )}
-                  </Link>
-
-                  <Link
-                    href="/conta"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center space-x-3 py-3 text-white/80 hover:text-yellow-400 transition-colors"
-                  >
-                    <User className="w-5 h-5" />
-                    <span>Minha Conta</span>
-                  </Link>
-                </div>
 
                 {/* Contact Info */}
                 <div className="border-t border-white/10 pt-8 space-y-4">

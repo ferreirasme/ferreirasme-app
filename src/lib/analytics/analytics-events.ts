@@ -1,5 +1,5 @@
 import { logEvent as gaLogEvent, trackFormSubmission as gaTrackForm, trackImageView as gaTrackImage, trackNewsletterSignup as gaTrackNewsletter, trackWhatsAppClick as gaTrackWhatsApp } from './google-analytics';
-import { gtmEvent, gtmFormEvents, gtmEngagement, gtmEcommerce } from './google-tag-manager';
+import { gtmEvent, gtmFormEvents, gtmEngagement } from './google-tag-manager';
 import { trackFacebookEvent } from './facebook-pixel';
 
 // Analytics event types
@@ -17,11 +17,6 @@ export enum AnalyticsEventType {
   WHATSAPP_CLICK = 'whatsapp_click',
   SOCIAL_CLICK = 'social_click',
   IMAGE_VIEW = 'image_view',
-  
-  // E-commerce
-  PRODUCT_VIEW = 'product_view',
-  ADD_TO_CART = 'add_to_cart',
-  PURCHASE = 'purchase',
   
   // Custom events
   CUSTOM = 'custom',
@@ -150,66 +145,6 @@ export const analytics = {
     },
   },
 
-  // E-commerce tracking
-  ecommerce: {
-    productView: (product: {
-      id: string;
-      name: string;
-      category: string;
-      price: number;
-      currency?: string;
-    }) => {
-      gtmEcommerce.viewItem(product);
-      trackFacebookEvent('ViewContent', {
-        content_ids: [product.id],
-        content_name: product.name,
-        content_category: product.category,
-        value: product.price,
-        currency: product.currency || 'BRL',
-      });
-    },
-
-    addToCart: (product: {
-      id: string;
-      name: string;
-      category: string;
-      price: number;
-      quantity: number;
-      currency?: string;
-    }) => {
-      gtmEcommerce.addToCart(product);
-      trackFacebookEvent('AddToCart', {
-        content_ids: [product.id],
-        content_name: product.name,
-        content_type: 'product',
-        value: product.price * product.quantity,
-        currency: product.currency || 'BRL',
-        quantity: product.quantity,
-      });
-    },
-
-    purchase: (transaction: {
-      id: string;
-      value: number;
-      currency?: string;
-      items: Array<{
-        id: string;
-        name: string;
-        category: string;
-        price: number;
-        quantity: number;
-      }>;
-    }) => {
-      gtmEcommerce.purchase(transaction);
-      trackFacebookEvent('Purchase', {
-        value: transaction.value,
-        currency: transaction.currency || 'BRL',
-        content_ids: transaction.items.map(item => item.id),
-        content_type: 'product',
-        num_items: transaction.items.reduce((sum, item) => sum + item.quantity, 0),
-      });
-    },
-  },
 
   // Custom event
   custom: (eventName: string, data?: Record<string, any>) => {
