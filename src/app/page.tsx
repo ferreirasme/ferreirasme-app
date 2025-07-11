@@ -16,14 +16,9 @@ const GoldParticles = dynamic(() => import('@/components/GoldParticles'), {
   ssr: false
 })
 const ImageModal = dynamic(() => import('@/components/ImageModal'))
-const CountdownTimer = dynamic(() => import('@/components/CountdownTimer'))
 const WhatsAppButton = dynamic(() => import('@/components/WhatsAppButton'))
 const NewsletterForm = dynamic(() => import('@/components/NewsletterForm'))
-const BrandHighlights = dynamic(() => import('@/components/BrandHighlights'))
 const InstagramFeed = dynamic(() => import('@/components/InstagramFeed'), {
-  loading: () => <div className="animate-pulse bg-white/10 h-96 rounded-lg" />
-})
-const TestimonialsSection = dynamic(() => import('@/components/TestimonialsSection'), {
   loading: () => <div className="animate-pulse bg-white/10 h-96 rounded-lg" />
 })
 
@@ -165,31 +160,12 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Countdown Section */}
-      <div className="container mx-auto px-4 py-12">
-        <CountdownTimer />
-      </div>
-
-      {/* Brand Highlights */}
-      <div className="container mx-auto px-4 py-12">
-        <motion.h2 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="text-3xl font-light tracking-wider text-center mb-12 text-yellow-400"
-        >
-          POR QUE ESCOLHER FERREIRAS.ME
-        </motion.h2>
-        <BrandHighlights />
-      </div>
 
       {/* Newsletter Section */}
       <div className="container mx-auto px-4 py-12 max-w-2xl">
         <NewsletterForm />
       </div>
 
-      {/* Testimonials Section */}
-      <TestimonialsSection />
       
       {/* Instagram Feed Section */}
       <div className="container mx-auto px-4 py-16">
