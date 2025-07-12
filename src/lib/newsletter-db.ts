@@ -1,6 +1,12 @@
 import { supabase, NewsletterSubscriber } from './supabase'
 
 export async function saveNewsletterSubscriber(email: string, ipAddress?: string, userAgent?: string) {
+  // Se não houver cliente Supabase, retornar sucesso silenciosamente
+  if (!supabase) {
+    console.warn('Supabase not configured, skipping database save')
+    return { success: true, data: null }
+  }
+  
   try {
     const { data, error } = await supabase
       .from('newsletter_subscribers')
@@ -25,6 +31,11 @@ export async function saveNewsletterSubscriber(email: string, ipAddress?: string
 }
 
 export async function confirmNewsletterSubscriber(email: string) {
+  if (!supabase) {
+    console.warn('Supabase not configured, skipping database update')
+    return { success: true, data: null }
+  }
+  
   try {
     const { data, error } = await supabase
       .from('newsletter_subscribers')
@@ -45,6 +56,11 @@ export async function confirmNewsletterSubscriber(email: string) {
 }
 
 export async function getNewsletterSubscribers(onlyConfirmed: boolean = true) {
+  if (!supabase) {
+    console.warn('Supabase not configured, returning empty list')
+    return { success: true, data: [] }
+  }
+  
   try {
     let query = supabase
       .from('newsletter_subscribers')
@@ -66,6 +82,11 @@ export async function getNewsletterSubscribers(onlyConfirmed: boolean = true) {
 }
 
 export async function checkSubscriberExists(email: string) {
+  if (!supabase) {
+    console.warn('Supabase not configured, returning not exists')
+    return { exists: false, confirmed: false }
+  }
+  
   try {
     const { data, error } = await supabase
       .from('newsletter_subscribers')
