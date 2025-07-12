@@ -100,7 +100,7 @@ export default function LoginDebugPage() {
             </div>
 
             <div className="flex gap-2">
-              <Button onClick={testLogin} variant="default">
+              <Button onClick={testLogin}>
                 Testar Login Completo
               </Button>
               <Button onClick={testDirectAccess} variant="outline">
