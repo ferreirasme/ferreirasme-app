@@ -106,7 +106,7 @@ export async function getBackupEmails(): Promise<BackupEntry[]> {
         .order('timestamp', { ascending: false })
       
       if (!error && data) {
-        return data.map(item => ({
+        return data.map((item: any) => ({
           email: item.email,
           timestamp: item.timestamp,
           ip: item.ip_address,
