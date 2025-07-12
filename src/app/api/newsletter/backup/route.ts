@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getBackupEmails } from '@/lib/email-backup'
-import { getUnsubscribedList } from '@/lib/unsubscribed'
+import { getUnsubscribedEmailsMemory } from '@/lib/unsubscribed-memory'
 
 export async function GET() {
   try {
@@ -9,8 +9,7 @@ export async function GET() {
     // Obter lista de descadastrados
     let unsubscribedEmails: string[] = []
     try {
-      const unsubscribedList = await getUnsubscribedList()
-      unsubscribedEmails = unsubscribedList.map(u => u.email.toLowerCase())
+      unsubscribedEmails = await getUnsubscribedEmailsMemory()
     } catch (err) {
       console.error('Error loading unsubscribed list:', err)
     }

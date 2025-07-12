@@ -3,7 +3,7 @@ import { getNewsletterSubscribers } from '@/lib/newsletter-db'
 import { getBackupEmails } from '@/lib/email-backup'
 import { supabase } from '@/lib/supabase'
 import { cache } from '@/lib/cache'
-import { getUnsubscribedList } from '@/lib/unsubscribed'
+import { getUnsubscribedEmailsMemory } from '@/lib/unsubscribed-memory'
 
 export async function GET(request: NextRequest) {
   try {
@@ -109,8 +109,7 @@ export async function GET(request: NextRequest) {
     // Obter lista de descadastrados
     let unsubscribedEmails: string[] = []
     try {
-      const unsubscribedList = await getUnsubscribedList()
-      unsubscribedEmails = unsubscribedList.map(u => u.email.toLowerCase())
+      unsubscribedEmails = await getUnsubscribedEmailsMemory()
       console.log('Unsubscribed emails:', unsubscribedEmails.length)
     } catch (err) {
       console.error('Error loading unsubscribed list:', err)

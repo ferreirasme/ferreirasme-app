@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { cache } from '@/lib/cache'
 import { getBackupEmails } from '@/lib/email-backup'
-import { addToUnsubscribed } from '@/lib/unsubscribed'
+import { addToUnsubscribedMemory, clearUnsubscribedCache } from '@/lib/unsubscribed-memory'
 
 export async function POST(request: NextRequest) {
   try {
@@ -63,15 +63,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Adicionar à lista de descadastrados (solução alternativa)
-    const addedToUnsubscribed = await addToUnsubscribed(email, 'user_request')
+    const addedToUnsubscribed = await addToUnsubscribedMemory(email, 'user_request')
     
     if (addedToUnsubscribed) {
       unsubscribed = true
       console.log(`Added to unsubscribed list: ${email}`)
     }
 
-    // Limpar cache
+    // Limpar caches
     cache.clear()
+    clearUnsubscribedCache()
 
     if (unsubscribed || addedToUnsubscribed) {
       // Sucesso se conseguimos marcar como descadastrado de alguma forma

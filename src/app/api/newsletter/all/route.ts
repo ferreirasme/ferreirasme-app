@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getNewsletterSubscribers } from '@/lib/newsletter-db'
 import { getBackupEmails } from '@/lib/email-backup'
-import { getUnsubscribedList } from '@/lib/unsubscribed'
+import { getUnsubscribedListMemory, getUnsubscribedEmailsMemory } from '@/lib/unsubscribed-memory'
 import { supabase } from '@/lib/supabase'
 import { cache } from '@/lib/cache'
 
@@ -52,8 +52,8 @@ export async function GET(request: NextRequest) {
     // 3. Buscar lista de descadastrados
     if (includeUnsubscribed) {
       try {
-        const unsubscribedList = await getUnsubscribedList()
-        const unsubscribedEmails = unsubscribedList.map(u => u.email.toLowerCase())
+        const unsubscribedList = await getUnsubscribedListMemory()
+        const unsubscribedEmails = await getUnsubscribedEmailsMemory()
         
         // Marcar emails como descadastrados
         allEmails = allEmails.map((email: any) => ({
@@ -84,8 +84,7 @@ export async function GET(request: NextRequest) {
     } else {
       // Se não incluir descadastrados, filtrar eles
       try {
-        const unsubscribedList = await getUnsubscribedList()
-        const unsubscribedEmails = unsubscribedList.map((u: any) => u.email.toLowerCase())
+        const unsubscribedEmails = await getUnsubscribedEmailsMemory()
         allEmails = allEmails.filter((email: any) => 
           !unsubscribedEmails.includes(email.email.toLowerCase())
         )
