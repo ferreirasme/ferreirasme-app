@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import DOMPurify from 'isomorphic-dompurify'
 import { rateLimit } from '@/lib/rate-limit'
+import crypto from 'crypto'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -39,40 +40,56 @@ export async function POST(request: Request) {
     // Sanitização
     const sanitizedEmail = DOMPurify.sanitize(email.trim())
 
+    // Gerar token de confirmação
+    const confirmationToken = crypto.randomBytes(32).toString('hex')
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ferreiras.me'
+    const confirmationUrl = `${baseUrl}/confirmar-newsletter?token=${confirmationToken}`
+
     // Enviar correio eletrónico de confirmação para o utilizador
     await resend.emails.send({
       from: 'Ferreiras.Me <noreply@ferreiras.me>',
       to: sanitizedEmail,
-      subject: 'Confirmação de Inscrição - Ferreiras.Me',
+      subject: 'Confirme a sua inscrição - Ferreiras.Me',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="text-align: center; padding: 40px 20px; background-color: #f8f8f8;">
-            <h1 style="color: #FFD700; margin: 0;">Ferreiras.Me</h1>
+            <img src="${baseUrl}/logo.png" alt="Ferreiras.Me" style="max-width: 200px; height: auto; margin-bottom: 10px;">
             <p style="color: #666; margin-top: 10px;">SEMIJOIAS EXCLUSIVAS</p>
           </div>
           
           <div style="padding: 40px 20px;">
-            <h2 style="color: #333;">Obrigado pela sua inscrição!</h2>
+            <h2 style="color: #333; text-align: center;">Confirme a sua inscrição!</h2>
             
-            <p style="color: #666; line-height: 1.6;">
-              A sua inscrição foi confirmada com sucesso. Será a primeira a saber quando 
-              lançarmos a nossa coleção exclusiva de semijoias.
+            <p style="color: #666; line-height: 1.6; text-align: center;">
+              Está a um clique de fazer parte do mundo exclusivo Ferreiras.Me.
             </p>
             
-            <p style="color: #666; line-height: 1.6;">
-              Enquanto isso, siga-nos no Instagram 
-              <a href="https://www.instagram.com/ferreirasme/" style="color: #FFD700;">@ferreirasme</a> 
-              para acompanhar as novidades.
-            </p>
-            
-            <div style="margin-top: 40px; padding: 20px; background-color: #FFD700; border-radius: 8px; text-align: center;">
-              <p style="margin: 0; color: #000; font-weight: bold;">EM BREVE</p>
+            <div style="text-align: center; margin: 40px 0;">
+              <a href="${confirmationUrl}" style="display: inline-block; background-color: #FFD700; color: #000; text-decoration: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
+                Confirmar Inscrição
+              </a>
             </div>
+            
+            <p style="color: #666; line-height: 1.6; text-align: center;">
+              Após confirmar, será a primeira a receber nossas novidades e ofertas exclusivas.
+            </p>
+            
+            <p style="color: #666; line-height: 1.6; text-align: center;">
+              Siga-nos no Instagram 
+              <a href="https://www.instagram.com/ferreirasme/" style="color: #FFD700;">@ferreirasme</a> 
+              para acompanhar as novidades diárias.
+            </p>
+            
+            <hr style="border: none; border-top: 1px solid #eee; margin: 40px 0;">
+            
+            <p style="color: #999; font-size: 12px; text-align: center;">
+              Se não solicitou esta inscrição, pode ignorar este email.
+            </p>
           </div>
           
           <div style="padding: 20px; background-color: #f8f8f8; text-align: center;">
             <p style="color: #999; font-size: 12px; margin: 0;">
-              © 2024 Ferreiras.Me - Todos os direitos reservados
+              © 2023-${new Date().getFullYear()} Ferreiras.Me - Todos os direitos reservados
             </p>
           </div>
         </div>
@@ -95,7 +112,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Inscrição realizada com sucesso! Verifique o seu correio eletrónico.'
+      message: 'Inscrição realizada com sucesso! Verifique o seu correio eletrónico para confirmar.'
     })
     
   } catch (error) {

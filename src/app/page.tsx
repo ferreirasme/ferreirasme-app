@@ -280,11 +280,6 @@ export default function Home() {
                       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                     </div>
                     
-                    {/* Text overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      <p className="text-sm font-light tracking-wider text-white/90">{image.alt}</p>
-                      <div className="mt-2 h-[1px] w-12 bg-gradient-to-r from-yellow-400 to-transparent" />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -316,12 +311,7 @@ export default function Home() {
               loading="lazy"
             />
             <p className="text-yellow-400/80 font-light tracking-wider mb-2">FERREIRAS.ME</p>
-            <p className="text-white/50 text-sm font-light">© 2024 - Todos os direitos reservados</p>
-            <div className="mt-6 flex justify-center gap-2">
-              <Sparkles className="w-4 h-4 text-yellow-400/50" />
-              <p className="text-white/40 text-xs font-light tracking-wider">LUXO • ELEGÂNCIA • EXCLUSIVIDADE</p>
-              <Sparkles className="w-4 h-4 text-yellow-400/50" />
-            </div>
+            <p className="text-white/50 text-sm font-light">© 2023-{new Date().getFullYear()} - Todos os direitos reservados</p>
           </div>
         </div>
       </footer>
