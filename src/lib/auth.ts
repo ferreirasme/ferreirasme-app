@@ -106,9 +106,22 @@ export function verifyCredentials(username: string, password: string): boolean {
   const users = getAuthorizedUsers();
   const passwordHash = hashPassword(password);
   
-  return users.some(
-    (user) => user.username === username && user.passwordHash === passwordHash
+  console.log('Auth: Verificando credenciais para:', username);
+  console.log('Auth: Total de usuários configurados:', users.length);
+  console.log('Auth: Usuários disponíveis:', users.map(u => u.username));
+  
+  const found = users.some(
+    (user) => {
+      const match = user.username === username && user.passwordHash === passwordHash;
+      if (user.username === username) {
+        console.log(`Auth: Usuário ${username} encontrado, senha correta:`, match);
+      }
+      return match;
+    }
   );
+  
+  console.log('Auth: Resultado da verificação:', found);
+  return found;
 }
 
 // Verificar se está autenticado (para uso em Server Components)
