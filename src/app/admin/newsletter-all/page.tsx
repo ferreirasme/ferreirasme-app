@@ -1,10 +1,8 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import Navigation from '@/components/Navigation'
-import { AdminHeader } from '@/components/AdminHeader'
 import { Mail, CheckCircle, XCircle, Download, RefreshCw, Filter, UserX, Database, Archive } from 'lucide-react'
-import { isAuthenticated } from '@/lib/auth'
-
-// Esta é uma client component, então a verificação de autenticação é feita pelo middleware
 
 interface Subscriber {
   id: string
