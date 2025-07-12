@@ -3,18 +3,24 @@ import type { NextRequest } from 'next/server'
 import { verifySessionToken } from '@/lib/auth'
 
 export function middleware(request: NextRequest) {
+  console.log(`[Middleware] Path: ${request.nextUrl.pathname}`);
+  
   // Verificar autenticação para rotas admin
   if (request.nextUrl.pathname.startsWith('/admin/')) {
-    // Permitir acesso à página de login
-    if (request.nextUrl.pathname === '/admin/login') {
+    // Permitir acesso às páginas de login e debug
+    if (request.nextUrl.pathname === '/admin/login' || 
+        request.nextUrl.pathname === '/admin/login-debug') {
+      console.log('[Middleware] Permitindo acesso a página de login/debug');
       return NextResponse.next()
     }
     
     // Verificar token de sessão
     const sessionToken = request.cookies.get('admin-session')
+    console.log('[Middleware] Token de sessão existe?', !!sessionToken);
     
     if (!sessionToken) {
       // Redirecionar para login
+      console.log('[Middleware] Sem token, redirecionando para login');
       const loginUrl = new URL('/admin/login', request.url)
       loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
       return NextResponse.redirect(loginUrl)
@@ -22,15 +28,19 @@ export function middleware(request: NextRequest) {
     
     // Verificar se o token é válido
     const { valid } = verifySessionToken(sessionToken.value)
+    console.log('[Middleware] Token válido?', valid);
     
     if (!valid) {
       // Token inválido, redirecionar para login
+      console.log('[Middleware] Token inválido, redirecionando para login');
       const loginUrl = new URL('/admin/login', request.url)
       loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
       const response = NextResponse.redirect(loginUrl)
       response.cookies.delete('admin-session')
       return response
     }
+    
+    console.log('[Middleware] Autenticação OK, permitindo acesso');
   }
   
   // Clone o response
