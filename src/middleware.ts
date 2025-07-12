@@ -1,7 +1,38 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { verifySessionToken } from '@/lib/auth'
 
 export function middleware(request: NextRequest) {
+  // Verificar autenticação para rotas admin
+  if (request.nextUrl.pathname.startsWith('/admin/')) {
+    // Permitir acesso à página de login
+    if (request.nextUrl.pathname === '/admin/login') {
+      return NextResponse.next()
+    }
+    
+    // Verificar token de sessão
+    const sessionToken = request.cookies.get('admin-session')
+    
+    if (!sessionToken) {
+      // Redirecionar para login
+      const loginUrl = new URL('/admin/login', request.url)
+      loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+    
+    // Verificar se o token é válido
+    const { valid } = verifySessionToken(sessionToken.value)
+    
+    if (!valid) {
+      // Token inválido, redirecionar para login
+      const loginUrl = new URL('/admin/login', request.url)
+      loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
+      const response = NextResponse.redirect(loginUrl)
+      response.cookies.delete('admin-session')
+      return response
+    }
+  }
+  
   // Clone o response
   const response = NextResponse.next()
   
