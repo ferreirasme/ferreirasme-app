@@ -1,6 +1,37 @@
 # 📋 Log de Debug - Ferreiras.Me
 
-## 12/07/2025 20:00 - Sistema de Descadastro Robusto Implementado
+## 12/07/2025 21:00 - Sistema de Descadastro em Memória Implementado
+
+### 🔧 Atualização do sistema:
+- Sistema migrado de arquivos para memória devido às restrições do Vercel
+- Implementação de sincronização automática com Supabase
+
+### ✅ Melhorias implementadas:
+1. **Sistema em memória**:
+   - `src/lib/unsubscribed-memory.ts` gerencia lista em memória
+   - Sincronização automática com Supabase a cada minuto
+   - Fallback garantido mesmo sem conexão com banco
+
+2. **Página de gestão unificada**:
+   - `/admin/newsletter-all` com filtros e ações
+   - Botão de descadastro individual em cada linha
+   - Atualização imediata da interface
+   - Recarregamento automático após 1 segundo
+
+3. **Página de teste**:
+   - `/admin/test-unsubscribe` para debug do sistema
+   - Testa fluxo completo de descadastro
+   - Mostra status detalhado do processo
+
+### 📊 Resultado:
+- Descadastro funciona instantaneamente
+- Emails são marcados como descadastrados em todas as visualizações
+- Sistema resiliente que funciona mesmo sem Supabase
+- Sincronização automática quando possível
+
+---
+
+## 12/07/2025 20:00 - Sistema de Descadastro com Arquivo Implementado
 
 ### 🔧 Problema identificado:
 - Email era reconhecido mas não conseguia ser removido devido a problemas de RLS no Supabase

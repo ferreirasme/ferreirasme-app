@@ -29,6 +29,7 @@ export default function NewsletterAllPage() {
     pending: 0,
     unsubscribed: 0
   })
+  const [processing, setProcessing] = useState<string | null>(null)
 
   useEffect(() => {
     loadAllData()
@@ -86,6 +87,41 @@ export default function NewsletterAllPage() {
     }
     
     setFilteredSubscribers(filtered)
+  }
+
+  const handleUnsubscribe = async (email: string) => {
+    if (!confirm(`Tem certeza que deseja descadastrar ${email}?`)) return
+    
+    setProcessing(email)
+    
+    try {
+      const response = await fetch('/api/newsletter/unsubscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+      
+      if (response.ok) {
+        // Atualizar dados localmente para resposta imediata
+        setAllSubscribers(prev => 
+          prev.map(sub => 
+            sub.email === email 
+              ? { ...sub, unsubscribed: true, unsubscribed_at: new Date().toISOString() }
+              : sub
+          )
+        )
+        
+        // Recarregar dados após 1 segundo para garantir sincronização
+        setTimeout(() => loadAllData(), 1000)
+      } else {
+        alert('Erro ao descadastrar email')
+      }
+    } catch (error) {
+      console.error('Error unsubscribing:', error)
+      alert('Erro ao descadastrar email')
+    } finally {
+      setProcessing(null)
+    }
   }
 
   const exportToCSV = () => {
@@ -227,6 +263,9 @@ export default function NewsletterAllPage() {
                       <th className="text-left p-4 text-yellow-400 font-light">
                         Fonte
                       </th>
+                      <th className="text-center p-4 text-yellow-400 font-light">
+                        Ações
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -275,6 +314,17 @@ export default function NewsletterAllPage() {
                             )}
                             <span className="text-xs">{subscriber.source || 'banco'}</span>
                           </div>
+                        </td>
+                        <td className="p-4 text-center">
+                          {!subscriber.unsubscribed && (
+                            <button
+                              onClick={() => handleUnsubscribe(subscriber.email)}
+                              disabled={processing === subscriber.email}
+                              className="px-3 py-1 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-colors text-xs disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {processing === subscriber.email ? 'Processando...' : 'Descadastrar'}
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}

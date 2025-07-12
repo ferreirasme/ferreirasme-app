@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getUnsubscribedList, addToUnsubscribed } from '@/lib/unsubscribed'
+import { getUnsubscribedListMemory, addToUnsubscribedMemory } from '@/lib/unsubscribed-memory'
 import { supabase } from '@/lib/supabase'
 
 export async function GET(request: NextRequest) {
@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const email = searchParams.get('email')
     
     // Listar todos os descadastrados
-    const unsubscribedList = await getUnsubscribedList()
+    const unsubscribedList = await getUnsubscribedListMemory()
     
     if (email) {
       // Verificar email específico
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email é obrigatório' }, { status: 400 })
     }
     
-    const result = await addToUnsubscribed(email, 'debug_test')
+    const result = await addToUnsubscribedMemory(email, 'debug_test')
     
     return NextResponse.json({
       success: result,
