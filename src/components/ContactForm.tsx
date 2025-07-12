@@ -42,7 +42,7 @@ export default function ContactForm() {
       const data = await response.json()
 
       if (response.ok) {
-        setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.')
+        setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contacto em breve.')
         setFormData({ name: '', email: '', message: '' })
         
         // Track successful form submission and conversion
@@ -85,13 +85,13 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 text-white placeholder-white/30 transition-all duration-300"
-          placeholder="Seu nome completo"
+          placeholder="O seu nome completo"
         />
       </div>
 
       <div className="mb-6">
         <label htmlFor="email" className="block text-yellow-400/80 font-light tracking-wider text-sm mb-2">
-          E-MAIL
+          CORREIO ELETRÓNICO
         </label>
         <input
           type="email"
@@ -101,7 +101,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 text-white placeholder-white/30 transition-all duration-300"
-          placeholder="seu@email.com"
+          placeholder="o.seu@email.com"
         />
       </div>
 
@@ -130,7 +130,7 @@ export default function ContactForm() {
             : 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:shadow-lg hover:shadow-yellow-400/30 transform hover:scale-[1.02]'
         }`}
       >
-        {isSubmitting ? 'ENVIANDO...' : 'ENVIAR MENSAGEM'}
+        {isSubmitting ? 'A ENVIAR...' : 'ENVIAR MENSAGEM'}
       </button>
 
       {submitMessage && (

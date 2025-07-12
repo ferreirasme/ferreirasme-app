@@ -58,11 +58,11 @@ export default function Home() {
     const error = params.get('error')
     
     if (instagramStatus === 'connected') {
-      setNotification({ type: 'success', message: 'Instagram conectado com sucesso!' })
+      setNotification({ type: 'success', message: 'Instagram ligado com sucesso!' })
       // Clean URL
       window.history.replaceState({}, document.title, window.location.pathname)
     } else if (error) {
-      setNotification({ type: 'error', message: `Erro ao conectar Instagram: ${error}` })
+      setNotification({ type: 'error', message: `Erro ao ligar Instagram: ${error}` })
       // Clean URL
       window.history.replaceState({}, document.title, window.location.pathname)
     }
@@ -173,7 +173,7 @@ export default function Home() {
       </div>
 
       {/* Elegant Actions */}
-      <div id="contato" className="container mx-auto px-4 py-12">
+      <div id="contacto" className="container mx-auto px-4 py-12">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -200,7 +200,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="relative bg-white/10 backdrop-blur-md text-white font-light tracking-wider py-4 px-8 rounded-full border border-white/30 hover:border-white/50 transition-all duration-300 flex items-center gap-3">
               <Mail className="w-5 h-5" />
-              CONTATO
+              CONTACTO
             </div>
           </button>
         </motion.div>
@@ -213,7 +213,7 @@ export default function Home() {
             className="max-w-md mx-auto mb-16 bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20"
           >
             <h2 className="text-2xl font-light tracking-wider text-center mb-6 text-yellow-400">
-              ENTRE EM CONTATO
+              ENTRE EM CONTACTO
             </h2>
             <ContactForm />
           </motion.div>
@@ -309,7 +309,7 @@ export default function Home() {
           <div className="container mx-auto px-4 py-12 text-center">
             <Image
               src="/logo.png"
-              alt="Ferreiras.Me - Logo rodapé"
+              alt="Ferreiras.Me - Logótipo rodapé"
               width={180}
               height={80}
               className="mx-auto mb-6 opacity-80"

@@ -150,9 +150,9 @@ export const CookieConsent: React.FC = () => {
       <div className="text-gray-800">
         <h2 className="text-2xl font-bold mb-3">Configurações de Cookies</h2>
         <p className="mb-4 text-gray-600">
-          Usamos cookies para melhorar sua experiência em nosso site. Alguns cookies são essenciais
-          para o funcionamento do site, enquanto outros nos ajudam a entender como você interage
-          com nosso conteúdo.
+          Utilizamos cookies para melhorar a sua experiência no nosso site. Alguns cookies são essenciais
+          para o funcionamento do site, enquanto outros nos ajudam a compreender como interage
+          com o nosso conteúdo.
         </p>
 
         {!showDetails ? (
@@ -160,7 +160,7 @@ export const CookieConsent: React.FC = () => {
             onClick={() => setShowDetails(true)}
             className="text-yellow-600 hover:text-yellow-700 underline mb-4"
           >
-            Personalizar configurações
+            Personalizar definições
           </button>
         ) : (
           <div className="space-y-4 mb-6">
@@ -188,7 +188,7 @@ export const CookieConsent: React.FC = () => {
                 <div>
                   <h3 className="font-semibold text-lg">Cookies de Análise</h3>
                   <p className="text-sm text-gray-600 mt-1">
-                    Nos ajudam a entender como você usa o site (Google Analytics, Clarity).
+                    Ajudam-nos a compreender como utiliza o site (Google Analytics, Clarity).
                   </p>
                 </div>
                 <input
@@ -206,7 +206,7 @@ export const CookieConsent: React.FC = () => {
                 <div>
                   <h3 className="font-semibold text-lg">Cookies de Marketing</h3>
                   <p className="text-sm text-gray-600 mt-1">
-                    Usados para mostrar anúncios relevantes (Facebook Pixel).
+                    Utilizados para mostrar anúncios relevantes (Facebook Pixel).
                   </p>
                 </div>
                 <input
@@ -254,7 +254,7 @@ export const CookieConsent: React.FC = () => {
         )}
 
         <div className="text-sm text-gray-500 mt-4">
-          Para mais informações, consulte nossa{' '}
+          Para mais informações, consulte a nossa{' '}
           <a
             href={process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL || '/privacy-policy'}
             className="text-yellow-600 hover:text-yellow-700 underline"

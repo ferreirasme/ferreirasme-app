@@ -14,7 +14,7 @@ interface NavigationProps {
 
 const navItems = [
   { name: 'Início', href: '/' },
-  { name: 'Contato', href: '#contato' },
+  { name: 'Contacto', href: '#contacto' },
 ]
 
 export default function Navigation({ className }: NavigationProps) {
@@ -160,11 +160,11 @@ export default function Navigation({ className }: NavigationProps) {
                   </a>
 
                   <a
-                    href="mailto:contato@ferreirasme.com"
+                    href="mailto:contacto@ferreirasme.com"
                     className="flex items-center space-x-3 text-white/60 hover:text-yellow-400 transition-colors"
                   >
                     <Mail className="w-5 h-5" />
-                    <span>contato@ferreirasme.com</span>
+                    <span>contacto@ferreirasme.com</span>
                   </a>
 
                   <a

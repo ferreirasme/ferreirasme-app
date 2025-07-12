@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       await rateLimit('newsletter')
     } catch (error) {
       return NextResponse.json(
-        { error: 'Muitas tentativas. Por favor, aguarde antes de tentar novamente.' },
+        { error: 'Demasiadas tentativas. Por favor, aguarde antes de tentar novamente.' },
         { status: 429 }
       )
     }
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     // Validação
     if (!email) {
       return NextResponse.json(
-        { error: 'Email é obrigatório' },
+        { error: 'Correio eletrónico é obrigatório' },
         { status: 400 }
       )
     }
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { error: 'Email inválido' },
+        { error: 'Correio eletrónico inválido' },
         { status: 400 }
       )
     }
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
     // Sanitização
     const sanitizedEmail = DOMPurify.sanitize(email.trim())
 
-    // Enviar email de confirmação para o usuário
+    // Enviar correio eletrónico de confirmação para o utilizador
     await resend.emails.send({
       from: 'Ferreiras.Me <noreply@ferreiras.me>',
       to: sanitizedEmail,
@@ -55,8 +55,8 @@ export async function POST(request: Request) {
             <h2 style="color: #333;">Obrigado pela sua inscrição!</h2>
             
             <p style="color: #666; line-height: 1.6;">
-              A sua inscrição foi confirmada com sucesso. Você será a primeira a saber quando 
-              lançarmos nossa coleção exclusiva de semijoias.
+              A sua inscrição foi confirmada com sucesso. Será a primeira a saber quando 
+              lançarmos a nossa coleção exclusiva de semijoias.
             </p>
             
             <p style="color: #666; line-height: 1.6;">
@@ -82,12 +82,12 @@ export async function POST(request: Request) {
     // Enviar notificação para o administrador
     await resend.emails.send({
       from: 'Ferreiras.Me <noreply@ferreiras.me>',
-      to: 'contato@ferreirasme.com',
+      to: 'contacto@ferreirasme.com',
       subject: 'Nova Inscrição na Newsletter - Ferreiras.Me',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #FFD700;">Nova Inscrição na Newsletter</h2>
-          <p><strong>Email:</strong> ${sanitizedEmail}</p>
+          <p><strong>Correio eletrónico:</strong> ${sanitizedEmail}</p>
           <p><strong>Data:</strong> ${new Date().toLocaleString('pt-PT')}</p>
         </div>
       `
@@ -95,14 +95,14 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Inscrição realizada com sucesso! Verifique seu email.'
+      message: 'Inscrição realizada com sucesso! Verifique o seu correio eletrónico.'
     })
     
   } catch (error) {
     // Em produção, não expor detalhes do erro
     if (process.env.NODE_ENV === 'production') {
       return NextResponse.json(
-        { error: 'Erro ao processar inscrição. Tente novamente.' },
+        { error: 'Erro ao processar a inscrição. Tente novamente.' },
         { status: 500 }
       )
     }

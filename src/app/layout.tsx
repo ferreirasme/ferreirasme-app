@@ -48,7 +48,7 @@ export const metadata: Metadata = {
         alt: 'Ferreiras.Me - Semijoias Exclusivas',
       }
     ],
-    locale: 'pt_BR',
+    locale: 'pt_PT',
     type: 'website',
   },
   twitter: {
@@ -88,8 +88,8 @@ export default function RootLayout({
     image: 'https://ferreirasme.com/logo.png',
     address: {
       '@type': 'PostalAddress',
-      addressCountry: 'BR',
-      addressRegion: 'Brasil',
+      addressCountry: 'PT',
+      addressRegion: 'Portugal',
     },
     sameAs: [
       'https://www.instagram.com/ferreirasme/',
@@ -97,7 +97,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="pt-BR">
+    <html lang="pt-PT">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
