@@ -57,12 +57,12 @@ export default function NewsletterForm() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.6 }}
-      className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 backdrop-blur-md rounded-3xl p-8 border border-purple-400/20"
+      className="bg-gradient-to-r from-purple-900/10 to-pink-900/10 dark:from-purple-900/20 dark:to-pink-900/20 backdrop-blur-md rounded-3xl p-8 border border-purple-400/20"
     >
       <h3 className="text-2xl font-light tracking-wider text-center mb-2 text-yellow-400">
         SEJA A PRIMEIRA A SABER
       </h3>
-      <p className="text-center text-white/70 mb-6">
+      <p className="text-center text-foreground/70 mb-6">
         Registe-se e receba ofertas exclusivas do lançamento
       </p>
       
@@ -73,7 +73,7 @@ export default function NewsletterForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="O seu melhor correio eletrónico"
           required
-          className="flex-1 px-6 py-3 bg-white/10 border border-white/20 rounded-full text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-400/50"
+          className="flex-1 px-6 py-3 bg-foreground/10 border border-foreground/20 rounded-full text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-yellow-400/50"
         />
         <button
           type="submit"

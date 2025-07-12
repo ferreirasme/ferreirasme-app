@@ -10,7 +10,7 @@ import Navigation from '@/components/Navigation'
 
 // Dynamic imports for better code splitting
 const ContactForm = dynamic(() => import('@/components/ContactForm'), {
-  loading: () => <div className="animate-pulse bg-white/10 h-96 rounded-lg" />
+  loading: () => <div className="animate-pulse bg-foreground/10 h-96 rounded-lg" />
 })
 const GoldParticles = dynamic(() => import('@/components/GoldParticles'), {
   ssr: false
@@ -19,7 +19,7 @@ const ImageModal = dynamic(() => import('@/components/ImageModal'))
 const WhatsAppButton = dynamic(() => import('@/components/WhatsAppButton'))
 const NewsletterForm = dynamic(() => import('@/components/NewsletterForm'))
 const InstagramFeed = dynamic(() => import('@/components/InstagramFeed'), {
-  loading: () => <div className="animate-pulse bg-white/10 h-96 rounded-lg" />
+  loading: () => <div className="animate-pulse bg-foreground/10 h-96 rounded-lg" />
 })
 
 interface ImageItem {
@@ -82,7 +82,7 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-white relative">
+      <main className="min-h-screen bg-gradient-to-br from-background via-muted to-background text-foreground relative">
         <GoldParticles />
         <WhatsAppButton />
       
@@ -104,7 +104,7 @@ export default function Home() {
       
       {/* Luxury Header */}
       <header className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 to-transparent" />
         
         {/* Shine effect */}
         <div className="absolute inset-0 opacity-30">
@@ -187,7 +187,7 @@ export default function Home() {
             className="group relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative bg-white/10 backdrop-blur-md text-white font-light tracking-wider py-4 px-8 rounded-full border border-white/30 hover:border-white/50 transition-all duration-300 flex items-center gap-3">
+            <div className="relative bg-foreground/10 backdrop-blur-md text-foreground font-light tracking-wider py-4 px-8 rounded-full border border-foreground/30 hover:border-foreground/50 transition-all duration-300 flex items-center gap-3">
               <Instagram className="w-5 h-5" />
               INSTAGRAM
             </div>
@@ -198,7 +198,7 @@ export default function Home() {
             className="group relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative bg-white/10 backdrop-blur-md text-white font-light tracking-wider py-4 px-8 rounded-full border border-white/30 hover:border-white/50 transition-all duration-300 flex items-center gap-3">
+            <div className="relative bg-foreground/10 backdrop-blur-md text-foreground font-light tracking-wider py-4 px-8 rounded-full border border-foreground/30 hover:border-foreground/50 transition-all duration-300 flex items-center gap-3">
               <Mail className="w-5 h-5" />
               CONTACTO
             </div>
@@ -210,7 +210,7 @@ export default function Home() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="max-w-md mx-auto mb-16 bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20"
+            className="max-w-md mx-auto mb-16 bg-foreground/5 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-foreground/20"
           >
             <h2 className="text-2xl font-light tracking-wider text-center mb-6 text-yellow-400">
               ENTRE EM CONTACTO
@@ -228,13 +228,13 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-light text-foreground mb-6">
             Porque cada peça carrega uma{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
               preciosa história
             </span>
           </h2>
-          <p className="text-xl text-white/70 font-light">
+          <p className="text-xl text-foreground/70 font-light">
             Nossas semijoias são mais que acessórios. São memórias, momentos e emoções 
             transformadas em joias exclusivas que acompanham sua jornada.
           </p>
@@ -262,7 +262,7 @@ export default function Home() {
               <div className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer">
                 {/* Gold border effect */}
                 <div className="absolute inset-0 p-[1px] bg-gradient-to-br from-yellow-400 via-yellow-600 to-yellow-400 rounded-2xl">
-                  <div className="relative w-full h-full bg-black rounded-2xl overflow-hidden">
+                  <div className="relative w-full h-full bg-background rounded-2xl overflow-hidden">
                     <OptimizedImage
                       src={image.src}
                       alt={image.alt}
@@ -273,11 +273,11 @@ export default function Home() {
                     />
                     
                     {/* Luxury overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
                     {/* Shine effect */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-foreground/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                     </div>
                     
                   </div>
@@ -299,8 +299,8 @@ export default function Home() {
 
       {/* Luxury Footer */}
       <footer className="relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-        <div className="relative bg-black/50 backdrop-blur-md border-t border-yellow-400/20">
+        <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
+        <div className="relative bg-background/50 backdrop-blur-md border-t border-yellow-400/20">
           <div className="container mx-auto px-4 py-12 text-center">
             <Image
               src="/logo.png"
@@ -311,7 +311,7 @@ export default function Home() {
               loading="lazy"
             />
             <p className="text-yellow-400/80 font-light tracking-wider mb-2">FERREIRAS.ME</p>
-            <p className="text-white/50 text-sm font-light">© 2023-{new Date().getFullYear()} - Todos os direitos reservados</p>
+            <p className="text-foreground/50 text-sm font-light">© 2023-{new Date().getFullYear()} - Todos os direitos reservados</p>
           </div>
         </div>
       </footer>

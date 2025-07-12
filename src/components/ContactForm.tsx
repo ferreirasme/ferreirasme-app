@@ -84,7 +84,7 @@ export default function ContactForm() {
           value={formData.name}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 text-white placeholder-white/30 transition-all duration-300"
+          className="w-full px-4 py-3 bg-foreground/5 border border-foreground/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 text-foreground placeholder-foreground/30 transition-all duration-300"
           placeholder="O seu nome completo"
         />
       </div>
@@ -100,7 +100,7 @@ export default function ContactForm() {
           value={formData.email}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 text-white placeholder-white/30 transition-all duration-300"
+          className="w-full px-4 py-3 bg-foreground/5 border border-foreground/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 text-foreground placeholder-foreground/30 transition-all duration-300"
           placeholder="o.seu@email.com"
         />
       </div>
@@ -126,7 +126,7 @@ export default function ContactForm() {
         disabled={isSubmitting}
         className={`relative w-full py-4 px-6 rounded-lg font-light tracking-wider overflow-hidden transition-all duration-300 ${
           isSubmitting 
-            ? 'bg-white/10 cursor-not-allowed text-white/50' 
+            ? 'bg-foreground/10 cursor-not-allowed text-foreground/50' 
             : 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:shadow-lg hover:shadow-yellow-400/30 transform hover:scale-[1.02]'
         }`}
       >

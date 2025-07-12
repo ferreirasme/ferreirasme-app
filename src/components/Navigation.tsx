@@ -35,7 +35,7 @@ export default function Navigation({ className }: NavigationProps) {
       <nav
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          isScrolled ? 'bg-black/90 backdrop-blur-md shadow-2xl' : 'bg-transparent',
+          isScrolled ? 'bg-background/90 backdrop-blur-md shadow-2xl' : 'bg-transparent',
           className
         )}
       >
@@ -58,7 +58,7 @@ export default function Navigation({ className }: NavigationProps) {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-white/80 hover:text-yellow-400 transition-colors duration-200 font-light tracking-wider text-sm uppercase"
+                  className="text-foreground/80 hover:text-yellow-400 transition-colors duration-200 font-light tracking-wider text-sm uppercase"
                 >
                   {item.name}
                 </Link>
@@ -74,7 +74,7 @@ export default function Navigation({ className }: NavigationProps) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden text-white/80 hover:text-yellow-400 transition-colors"
+              className="lg:hidden text-foreground/80 hover:text-yellow-400 transition-colors"
               aria-label="Menu"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -94,7 +94,7 @@ export default function Navigation({ className }: NavigationProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+              className="fixed inset-0 bg-background/60 backdrop-blur-sm z-40 lg:hidden"
             />
 
             {/* Menu Panel */}
@@ -103,13 +103,13 @@ export default function Navigation({ className }: NavigationProps) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed right-0 top-0 bottom-0 w-80 bg-black/95 backdrop-blur-md z-50 lg:hidden overflow-y-auto"
+              className="fixed right-0 top-0 bottom-0 w-80 bg-background/95 backdrop-blur-md z-50 lg:hidden overflow-y-auto"
             >
               <div className="p-6">
                 {/* Close Button */}
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="absolute top-6 right-6 text-white/80 hover:text-yellow-400 transition-colors"
+                  className="absolute top-6 right-6 text-foreground/80 hover:text-yellow-400 transition-colors"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -138,7 +138,7 @@ export default function Navigation({ className }: NavigationProps) {
                       <Link
                         href={item.href}
                         onClick={() => setIsOpen(false)}
-                        className="block py-3 text-white/80 hover:text-yellow-400 transition-colors font-light tracking-wider text-lg border-b border-white/10"
+                        className="block py-3 text-foreground/80 hover:text-yellow-400 transition-colors font-light tracking-wider text-lg border-b border-foreground/10"
                       >
                         {item.name}
                       </Link>
@@ -148,12 +148,12 @@ export default function Navigation({ className }: NavigationProps) {
 
 
                 {/* Contact Info */}
-                <div className="border-t border-white/10 pt-8 space-y-4">
+                <div className="border-t border-foreground/10 pt-8 space-y-4">
                   <a
                     href="https://www.instagram.com/ferreirasme/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-3 text-white/60 hover:text-yellow-400 transition-colors"
+                    className="flex items-center space-x-3 text-foreground/60 hover:text-yellow-400 transition-colors"
                   >
                     <Instagram className="w-5 h-5" />
                     <span>@ferreirasme</span>
@@ -161,7 +161,7 @@ export default function Navigation({ className }: NavigationProps) {
 
                   <a
                     href="mailto:contacto@ferreirasme.com"
-                    className="flex items-center space-x-3 text-white/60 hover:text-yellow-400 transition-colors"
+                    className="flex items-center space-x-3 text-foreground/60 hover:text-yellow-400 transition-colors"
                   >
                     <Mail className="w-5 h-5" />
                     <span>contacto@ferreirasme.com</span>
@@ -169,7 +169,7 @@ export default function Navigation({ className }: NavigationProps) {
 
                   <a
                     href="tel:+351999999999"
-                    className="flex items-center space-x-3 text-white/60 hover:text-yellow-400 transition-colors"
+                    className="flex items-center space-x-3 text-foreground/60 hover:text-yellow-400 transition-colors"
                   >
                     <Phone className="w-5 h-5" />
                     <span>+351 999 999 999</span>
