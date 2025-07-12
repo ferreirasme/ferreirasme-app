@@ -1,6 +1,8 @@
 # Ferreiras.Me - Site Institucional
 
-Site em construção para a Ferreiras.Me - Semijoias Exclusivas.
+**Site "EM BREVE" para a Ferreiras.Me - Semijoias Exclusivas em Portugal**
+
+🆕 **Última Atualização**: 12/07/2025
 
 ## Como Executar
 
@@ -9,10 +11,10 @@ Site em construção para a Ferreiras.Me - Semijoias Exclusivas.
 npm install
 ```
 
-2. Configure as variáveis de ambiente (opcional para Instagram):
+2. Configure as variáveis de ambiente:
 ```bash
 cp .env.example .env.local
-# Edite .env.local com suas credenciais
+# Edite .env.local com as credenciais do Supabase e Resend
 ```
 
 3. Execute o servidor de desenvolvimento:
@@ -22,6 +24,23 @@ npm run dev
 
 4. Abra [http://localhost:3000](http://localhost:3000) no navegador.
 
+## Páginas Administrativas
+
+- `/admin/newsletter-all` - Gestão completa de inscritos
+- `/admin/monitor` - Monitor do sistema
+- `/admin/newsletter-backup` - Lista de backup
+
+## Documentação
+
+- `CLAUDE.md` - Diretrizes do projeto
+- `PROJECT_STATUS.md` - Status atual detalhado
+- `DEBUG_LOG.md` - Histórico de problemas resolvidos
+- `COMMANDS.md` - Comandos úteis
+
+## Deploy
+
+O projeto está configurado para deploy automático no Vercel ao fazer push para o branch `main`.
+
 ## Estrutura de Pastas para Imagens
 
 Coloque suas imagens nas seguintes pastas:
@@ -30,24 +49,42 @@ Coloque suas imagens nas seguintes pastas:
 
 As imagens aparecerão automaticamente na galeria.
 
-## Recursos
+## Recursos Implementados
 
-- ✅ Página "Em Construção" responsiva
-- ✅ Galeria de imagens com filtros
-- ✅ Link para Instagram
-- ✅ Formulário de contato
-- ✅ Design moderno com gradientes
-- ✅ Totalmente responsivo
-- ✅ Integração com Instagram Feed
-- ✅ Cache inteligente para otimização
-- ✅ Fallback automático quando API indisponível
+### Frontend
+- ✅ Página "EM BREVE" minimalista e elegante
+- ✅ Sistema de newsletter com confirmação por correio eletrónico
+- ✅ Formulário de contacto integrado
+- ✅ Botão WhatsApp flutuante (+351912465539)
+- ✅ Partículas douradas animadas
+- ✅ Tema claro/escuro
+- ✅ Design totalmente responsivo
+- ✅ PWA configurado
+
+### Backend
+- ✅ Sistema de newsletter com backup redundante
+- ✅ Integração com Supabase (PostgreSQL)
+- ✅ Envio de correio eletrónico via Resend
+- ✅ Sistema de descadastro completo
+- ✅ Cache em memória otimizado
+- ✅ API RESTful completa
+
+### Administrativo
+- ✅ Painel de gestão de newsletter (`/admin/newsletter-all`)
+- ✅ Monitor em tempo real (`/admin/monitor`)
+- ✅ Sistema de health check
+- ✅ Exportação para CSV
 
 ## Tecnologias
 
-- Next.js 14
+- Next.js 15 (App Router)
 - React 18
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS + shadcn/ui
+- Framer Motion
+- Supabase (PostgreSQL)
+- Resend (Envio de correio eletrónico)
+- Vercel (Deploy)
 - Framer Motion
 - Instagram API
 
