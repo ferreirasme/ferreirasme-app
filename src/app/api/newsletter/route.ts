@@ -138,6 +138,11 @@ export async function POST(request: Request) {
             <p style="color: #999; font-size: 12px; margin: 0;">
               © 2023-${new Date().getFullYear()} Ferreiras.Me - Todos os direitos reservados
             </p>
+            <p style="color: #999; font-size: 11px; margin: 8px 0 0 0;">
+              <a href="${baseUrl}/descadastrar?email=${encodeURIComponent(sanitizedEmail)}" style="color: #999; text-decoration: underline;">
+                Cancelar subscrição
+              </a>
+            </p>
           </div>
         </div>
       `

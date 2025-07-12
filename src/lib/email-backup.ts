@@ -7,6 +7,7 @@ const BACKUP_FILE = path.join(BACKUP_DIR, 'subscribers.json')
 const CRITICAL_BACKUP = path.join(BACKUP_DIR, `critical-${new Date().toISOString().split('T')[0]}.txt`)
 
 interface BackupEntry {
+  id?: string
   email: string
   timestamp: string
   ip?: string
@@ -107,6 +108,7 @@ export async function getBackupEmails(): Promise<BackupEntry[]> {
       
       if (!error && data) {
         return data.map((item: any) => ({
+          id: item.id,
           email: item.email,
           timestamp: item.timestamp,
           ip: item.ip_address,

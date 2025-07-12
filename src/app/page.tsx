@@ -312,6 +312,11 @@ export default function Home() {
             />
             <p className="text-yellow-400/80 font-light tracking-wider mb-2">FERREIRAS.ME</p>
             <p className="text-foreground/50 text-sm font-light">© 2023-{new Date().getFullYear()} - Todos os direitos reservados</p>
+            <p className="text-foreground/30 text-xs font-light mt-4">
+              <a href="/descadastrar" className="hover:text-foreground/50 transition-colors">
+                Descadastrar newsletter
+              </a>
+            </p>
           </div>
         </div>
       </footer>
