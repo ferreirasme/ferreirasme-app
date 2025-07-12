@@ -1,5 +1,39 @@
 # 📋 Log de Debug - Ferreiras.Me
 
+## 13/07/2025 00:00 - Sistema de Autenticação Admin
+
+### 🔐 Tentativa de Implementação de Login Admin
+
+**Problema Principal**: Sistema de autenticação não funcionando
+
+**Ações realizadas:**
+1. Implementação inicial com cookies e tokens JWT locais
+2. Migração para sistema baseado em Supabase
+3. Criação de tabelas `admin_users` e `admin_sessions`
+4. Múltiplas tentativas de correção de hash de senha
+
+**Páginas criadas para debug:**
+- `/admin/login` - Página de login principal
+- `/admin/login-debug` - Debug com logs detalhados
+- `/admin/test-login-v2` - Teste do sistema Supabase
+- `/admin/setup-passwords` - Configurar senhas no banco
+- `/admin/fix-passwords` - Corrigir hashes
+
+**Problemas encontrados:**
+1. Cookies não sendo armazenados corretamente em produção
+2. Hash de senha não coincidindo entre setup e verificação
+3. Políticas RLS do Supabase bloqueando leitura
+4. Mesmo após correções, login ainda reporta "senha incorreta"
+
+**Scripts SQL criados:**
+- `supabase-admin-auth.sql` - Criação de tabelas
+- `supabase-fix-admin-rls.sql` - Correção de políticas
+- `supabase-simple-login.sql` - Teste simplificado
+
+**Status atual**: Sistema de autenticação não funcional - investigação continua
+
+---
+
 ## 12/07/2025 22:30 - Atualização Completa da Documentação
 
 ### 🔄 Comando ATUALIZAR TUDO AGORA executado:
