@@ -33,21 +33,25 @@ export async function POST(request: NextRequest) {
 
     // Gerar token de sessão
     const sessionToken = generateSessionToken(username);
+    console.log('API Login: Token gerado com sucesso');
+
+    // Criar response
+    const response = NextResponse.json(
+      { success: true, username },
+      { status: 200 }
+    );
 
     // Definir cookie de sessão
-    const cookieStore = await cookies();
-    cookieStore.set('admin-session', sessionToken, {
+    response.cookies.set('admin-session', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 24 * 60 * 60, // 24 horas
       path: '/',
     });
-
-    return NextResponse.json(
-      { success: true, username },
-      { status: 200 }
-    );
+    
+    console.log('API Login: Cookie definido, retornando sucesso');
+    return response;
   } catch (error) {
     console.error('Erro no login:', error);
     return NextResponse.json(

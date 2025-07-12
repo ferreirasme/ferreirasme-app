@@ -30,7 +30,7 @@ const securityHeaders = [
   },
   {
     key: 'Content-Security-Policy',
-    value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google-analytics.com *.googletagmanager.com *.facebook.net *.clarity.ms; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: blob: *.google-analytics.com *.googletagmanager.com *.facebook.com *.cdninstagram.com; connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com *.facebook.com *.clarity.ms vitals.vercel-insights.com; frame-src 'self' *.youtube.com *.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self';"
+    value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google-analytics.com *.googletagmanager.com *.facebook.net *.clarity.ms; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: blob: *.google-analytics.com *.googletagmanager.com *.facebook.com *.cdninstagram.com; connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com *.facebook.com *.clarity.ms vitals.vercel-insights.com *.supabase.co; frame-src 'self' *.youtube.com *.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self';"
   },
   {
     key: 'Permissions-Policy',
@@ -61,7 +61,7 @@ const nextConfig = {
     ]
   },
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    removeConsole: false, // Temporariamente desabilitado para debug
   },
   experimental: {
     optimizeCss: true,
