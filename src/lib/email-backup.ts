@@ -81,7 +81,7 @@ export async function backupEmailToFile(entry: BackupEntry): Promise<boolean> {
     console.log(`✅ Email backed up to file: ${entry.email}`)
   } catch (error) {
     // No Vercel, isso falhará porque o sistema de arquivos é read-only
-    console.log('File backup failed (expected on Vercel):', error.message)
+    console.log('File backup failed (expected on Vercel):', error instanceof Error ? error.message : 'Unknown error')
   }
   
   // Se não salvou em nenhum lugar, é crítico!
