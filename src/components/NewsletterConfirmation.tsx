@@ -84,7 +84,7 @@ export default function NewsletterConfirmation() {
                 <ul className="text-left space-y-3 text-muted-foreground">
                   <li>• Acesso antecipado às novas coleções</li>
                   <li>• Ofertas exclusivas para subscritores</li>
-                  <li>• Conteúdo inspirador sobre joalharia</li>
+                  <li>• Conteúdo inspirador sobre semijoias</li>
                   <li>• Convites para eventos especiais</li>
                 </ul>
               </motion.div>

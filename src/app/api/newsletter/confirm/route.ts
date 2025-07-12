@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { validateConfirmationToken } from '@/lib/newsletter-tokens'
+import { confirmNewsletterSubscriber } from '@/lib/newsletter-db'
 
 export async function POST(request: Request) {
   try {
@@ -21,8 +22,14 @@ export async function POST(request: Request) {
       )
     }
 
-    // In a real application, you would save the confirmed email to database
-    // For now, we'll just return success
+    // Confirmar no banco de dados
+    const { success } = await confirmNewsletterSubscriber(validation.email)
+    if (!success) {
+      return NextResponse.json(
+        { error: 'Erro ao confirmar inscrição. Tente novamente.' },
+        { status: 500 }
+      )
+    }
     return NextResponse.json({ 
       success: true, 
       message: 'Inscrição confirmada com sucesso!',

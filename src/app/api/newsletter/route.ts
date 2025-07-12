@@ -3,6 +3,7 @@ import { Resend } from 'resend'
 import DOMPurify from 'isomorphic-dompurify'
 import { rateLimit } from '@/lib/rate-limit'
 import { generateConfirmationToken } from '@/lib/newsletter-tokens'
+import { saveNewsletterSubscriber, checkSubscriberExists } from '@/lib/newsletter-db'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -39,6 +40,30 @@ export async function POST(request: Request) {
 
     // Sanitização
     const sanitizedEmail = DOMPurify.sanitize(email.trim())
+
+    // Verificar se já existe
+    const { exists, confirmed } = await checkSubscriberExists(sanitizedEmail)
+    if (exists && confirmed) {
+      return NextResponse.json(
+        { error: 'Este correio eletrónico já está inscrito na newsletter.' },
+        { status: 400 }
+      )
+    }
+
+    // Obter IP e User Agent
+    const ipAddress = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || ''
+    const userAgent = request.headers.get('user-agent') || ''
+
+    // Salvar no banco de dados
+    if (!exists) {
+      const { success } = await saveNewsletterSubscriber(sanitizedEmail, ipAddress, userAgent)
+      if (!success) {
+        return NextResponse.json(
+          { error: 'Erro ao processar inscrição. Tente novamente.' },
+          { status: 500 }
+        )
+      }
+    }
 
     // Gerar token de confirmação
     const confirmationToken = generateConfirmationToken(sanitizedEmail)
