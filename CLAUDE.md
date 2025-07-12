@@ -1,5 +1,9 @@
 # 📋 Diretrizes do Projeto Ferreiras.Me
 
+## 🔐 SENHAS DE COMANDO
+- **ATUALIZAR TUDO AGORA**: Atualiza todos os arquivos de documentação, status e configurações
+- **RETOMAR TUDO AGORA**: Retoma o trabalho do ponto onde parou, lendo status e configurações
+
 ## 🏢 Informações da Empresa
 - **Nome**: Ferreiras.Me
 - **Tipo**: Semijoias exclusivas (NÃO é joalharia)
@@ -52,6 +56,14 @@ RESEND_API_KEY=configurado ✅
 NEXT_PUBLIC_SUPABASE_URL=configurado ✅
 NEXT_PUBLIC_SUPABASE_ANON_KEY=configurado ✅
 ```
+
+**NOTA**: Os valores reais estão em .env.local e no Vercel
+
+### APIs e Serviços Externos
+- **Resend**: Configurado para envio de emails (noreply@ferreiras.me)
+- **Supabase**: Banco de dados PostgreSQL configurado
+- **Vercel**: Deploy automático configurado
+- **GitHub**: Repositório github.com/ferreirasme/ferreirasme-app
 
 ### Vercel
 - **Todas as variáveis já estão configuradas no Vercel**
