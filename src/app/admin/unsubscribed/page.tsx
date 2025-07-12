@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Navigation from '@/components/Navigation'
 import { UserX, RefreshCw, Calendar, Info } from 'lucide-react'
-import { getUnsubscribedList } from '@/lib/unsubscribed'
+// Removido import direto - usar API em vez disso
 
 interface UnsubscribedEntry {
   id?: string
@@ -22,8 +22,22 @@ export default function UnsubscribedPage() {
     setError(null)
     
     try {
-      const data = await getUnsubscribedList()
-      setEntries(data)
+      // Usar a API all com filtro de descadastrados
+      const response = await fetch('/api/newsletter/all?include_unsubscribed=true')
+      const result = await response.json()
+      
+      if (result.success && result.data) {
+        // Filtrar apenas os descadastrados
+        const unsubscribed = result.data
+          .filter((item: any) => item.unsubscribed)
+          .map((item: any) => ({
+            id: item.id,
+            email: item.email,
+            unsubscribedAt: item.unsubscribed_at || item.subscribed_at,
+            reason: 'user_request'
+          }))
+        setEntries(unsubscribed)
+      }
     } catch (err) {
       console.error('Error loading unsubscribed:', err)
       setError('Erro ao carregar lista de descadastrados')
