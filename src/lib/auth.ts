@@ -49,7 +49,7 @@ function getAuthorizedUsers() {
 }
 
 // Chave secreta para assinar tokens
-const SECRET_KEY = process.env.AUTH_SECRET || crypto.randomBytes(32).toString('hex');
+const SECRET_KEY = process.env.AUTH_SECRET || 'ferreirasme-admin-secret-2025-temporary';
 
 // Gerar token de sessão
 export function generateSessionToken(username: string): string {
@@ -70,33 +70,45 @@ export function generateSessionToken(username: string): string {
 
 // Verificar token de sessão
 export function verifySessionToken(token: string): { valid: boolean; username?: string } {
+  console.log('Auth: Verificando token...');
+  
   try {
     const decoded = Buffer.from(token, 'base64').toString('utf-8');
-    const [data, hash] = decoded.split('.');
+    const parts = decoded.split('.');
     
-    if (!data || !hash) {
+    if (parts.length !== 2) {
+      console.log('Auth: Token mal formado, partes:', parts.length);
       return { valid: false };
     }
+    
+    const [data, hash] = parts;
     
     const expectedHash = crypto
       .createHmac('sha256', SECRET_KEY)
       .update(data)
       .digest('hex');
     
+    console.log('Auth: Hash esperado vs recebido:', hash === expectedHash);
+    
     if (hash !== expectedHash) {
+      console.log('Auth: Hash não coincide');
       return { valid: false };
     }
     
     const payload = JSON.parse(data);
+    console.log('Auth: Payload do token:', { username: payload.username, age: Date.now() - payload.timestamp });
     
     // Verificar se o token não é muito antigo (24 horas)
     const tokenAge = Date.now() - payload.timestamp;
     if (tokenAge > 24 * 60 * 60 * 1000) {
+      console.log('Auth: Token expirado');
       return { valid: false };
     }
     
+    console.log('Auth: Token válido para:', payload.username);
     return { valid: true, username: payload.username };
   } catch (error) {
+    console.error('Auth: Erro ao verificar token:', error);
     return { valid: false };
   }
 }
