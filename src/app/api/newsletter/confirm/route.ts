@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     }
 
     // Validate token
-    const validation = validateConfirmationToken(token)
+    const validation = await validateConfirmationToken(token)
     if (!validation) {
       return NextResponse.json(
         { error: 'Token inválido ou expirado' },

@@ -101,7 +101,7 @@ export async function POST(request: Request) {
     }
 
     // Gerar token de confirmação
-    const confirmationToken = generateConfirmationToken(sanitizedEmail)
+    const confirmationToken = await generateConfirmationToken(sanitizedEmail)
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ferreiras.me'
     const confirmationUrl = `${baseUrl}/confirmar-newsletter?token=${confirmationToken}`
 
