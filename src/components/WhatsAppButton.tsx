@@ -5,7 +5,7 @@ import { MessageCircle } from 'lucide-react'
 import { analytics, trackConversion } from '@/lib/analytics/analytics-events'
 
 export default function WhatsAppButton() {
-  const whatsappNumber = '351999999999' // Substitua pelo número real de Portugal
+  const whatsappNumber = '351912465539'
   const message = 'Olá! Gostaria de saber mais sobre as semijoias Ferreiras.Me'
   
   const handleClick = () => {
