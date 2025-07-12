@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Instagram, Mail, Phone } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -14,7 +13,7 @@ interface NavigationProps {
 
 const navItems = [
   { name: 'Início', href: '/' },
-  { name: 'Contacto', href: '#contacto' },
+  { name: 'Contacto', href: '/contacto' },
 ]
 
 export default function Navigation({ className }: NavigationProps) {
@@ -41,15 +40,11 @@ export default function Navigation({ className }: NavigationProps) {
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-            {/* Logo */}
+            {/* Brand Name */}
             <Link href="/" className="relative z-10">
-              <Image
-                src="/logo.png"
-                alt="Ferreiras.Me"
-                width={150}
-                height={60}
-                className="w-auto h-12 md:h-14"
-              />
+              <span className="text-2xl md:text-3xl font-light tracking-wider text-yellow-400">
+                FERREIRAS.ME
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -114,15 +109,11 @@ export default function Navigation({ className }: NavigationProps) {
                   <X className="w-6 h-6" />
                 </button>
 
-                {/* Logo */}
+                {/* Brand Name */}
                 <div className="mb-8">
-                  <Image
-                    src="/logo.png"
-                    alt="Ferreiras.Me"
-                    width={150}
-                    height={60}
-                    className="w-auto h-12"
-                  />
+                  <span className="text-2xl font-light tracking-wider text-yellow-400">
+                    FERREIRAS.ME
+                  </span>
                 </div>
 
 
