@@ -48,13 +48,18 @@ export async function GET(request: NextRequest) {
     if (source === 'backup' || source === 'hybrid') {
       try {
         const backup = await getBackupEmails()
+        console.log('Backup emails found:', backup.length)
+        
         if (backup && backup.length > 0) {
           // Filtrar confirmados se necessário
           backupData = onlyConfirmed 
             ? backup.filter(email => email.confirmed === true)
             : backup
+            
+          console.log('Filtered backup data:', backupData.length, 'onlyConfirmed:', onlyConfirmed)
         }
       } catch (err: any) {
+        console.error('Error loading backup:', err)
         errors.push({ source: 'backup', error: err.message })
       }
     }

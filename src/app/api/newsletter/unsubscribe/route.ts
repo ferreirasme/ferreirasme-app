@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { cache } from '@/lib/cache'
+import { getBackupEmails } from '@/lib/email-backup'
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,13 +23,15 @@ export async function POST(request: NextRequest) {
     let unsubscribed = false
     const errors = []
 
+    const emailLower = email.toLowerCase()
+
     // Tentar atualizar no Supabase principal
     if (supabase) {
       try {
         const { error } = await supabase
           .from('newsletter_subscribers')
           .delete()
-          .eq('email', email.toLowerCase())
+          .eq('email', emailLower)
 
         if (!error) {
           unsubscribed = true
@@ -39,15 +42,13 @@ export async function POST(request: NextRequest) {
       } catch (err: any) {
         errors.push({ source: 'main_db', error: err.message })
       }
-    }
 
-    // Também remover do backup
-    if (supabase) {
+      // Também remover do backup do Supabase
       try {
         const { error } = await supabase
           .from('newsletter_backup')
           .delete()
-          .eq('email', email.toLowerCase())
+          .eq('email', emailLower)
 
         if (!error) {
           unsubscribed = true
@@ -100,6 +101,7 @@ export async function GET(request: NextRequest) {
     }
 
     let exists = false
+    const emailLower = email.toLowerCase()
 
     // Verificar no banco principal
     if (supabase) {
@@ -107,27 +109,58 @@ export async function GET(request: NextRequest) {
         const { data: mainData } = await supabase
           .from('newsletter_subscribers')
           .select('email')
-          .eq('email', email.toLowerCase())
+          .eq('email', emailLower)
           .single()
 
         if (mainData) exists = true
       } catch {
-        // Não encontrado
+        // Não encontrado no banco principal
       }
 
-      // Verificar no backup também
+      // Verificar no backup do Supabase
       if (!exists) {
         try {
           const { data: backupData } = await supabase
             .from('newsletter_backup')
             .select('email')
-            .eq('email', email.toLowerCase())
+            .eq('email', emailLower)
             .limit(1)
 
           if (backupData && backupData.length > 0) exists = true
         } catch {
-          // Não encontrado
+          // Não encontrado no backup do Supabase
         }
+      }
+    }
+
+    // Se ainda não encontrou, verificar no backup local/híbrido
+    if (!exists) {
+      try {
+        const backupEmails = await getBackupEmails()
+        const found = backupEmails.find(
+          entry => entry.email.toLowerCase() === emailLower
+        )
+        if (found) exists = true
+      } catch {
+        // Erro ao verificar backup
+      }
+    }
+
+    // Como última tentativa, usar a API de listagem
+    if (!exists) {
+      try {
+        const response = await fetch(`${request.nextUrl.origin}/api/newsletter/list`)
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success && data.data) {
+            const found = data.data.find(
+              (sub: any) => sub.email.toLowerCase() === emailLower
+            )
+            if (found) exists = true
+          }
+        }
+      } catch {
+        // Erro na API
       }
     }
 
