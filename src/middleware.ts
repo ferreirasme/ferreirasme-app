@@ -7,10 +7,12 @@ export function middleware(request: NextRequest) {
   
   // Verificar autenticação para rotas admin
   if (request.nextUrl.pathname.startsWith('/admin/')) {
-    // Permitir acesso às páginas de login e debug
+    // Permitir acesso às páginas de login, debug e teste
     if (request.nextUrl.pathname === '/admin/login' || 
-        request.nextUrl.pathname === '/admin/login-debug') {
-      console.log('[Middleware] Permitindo acesso a página de login/debug');
+        request.nextUrl.pathname === '/admin/login-debug' ||
+        request.nextUrl.pathname === '/admin/test-login-v2' ||
+        request.nextUrl.pathname === '/admin/setup-passwords') {
+      console.log('[Middleware] Permitindo acesso a página de login/debug/teste');
       return NextResponse.next()
     }
     
