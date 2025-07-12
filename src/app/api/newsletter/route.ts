@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import DOMPurify from 'isomorphic-dompurify'
 import { rateLimit } from '@/lib/rate-limit'
-import crypto from 'crypto'
+import { generateConfirmationToken } from '@/lib/newsletter-tokens'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     const sanitizedEmail = DOMPurify.sanitize(email.trim())
 
     // Gerar token de confirmação
-    const confirmationToken = crypto.randomBytes(32).toString('hex')
+    const confirmationToken = generateConfirmationToken(sanitizedEmail)
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ferreiras.me'
     const confirmationUrl = `${baseUrl}/confirmar-newsletter?token=${confirmationToken}`
 

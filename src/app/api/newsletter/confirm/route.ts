@@ -1,9 +1,5 @@
 import { NextResponse } from 'next/server'
-import crypto from 'crypto'
-
-// Simple in-memory storage for demo purposes
-// In production, use a database to store and validate tokens
-const confirmationTokens = new Map<string, { email: string, timestamp: number }>()
+import { validateConfirmationToken } from '@/lib/newsletter-tokens'
 
 export async function POST(request: Request) {
   try {
@@ -16,11 +12,21 @@ export async function POST(request: Request) {
       )
     }
 
-    // In a real application, you would validate the token against a database
+    // Validate token
+    const validation = validateConfirmationToken(token)
+    if (!validation) {
+      return NextResponse.json(
+        { error: 'Token inválido ou expirado' },
+        { status: 400 }
+      )
+    }
+
+    // In a real application, you would save the confirmed email to database
     // For now, we'll just return success
     return NextResponse.json({ 
       success: true, 
-      message: 'Inscrição confirmada com sucesso!'
+      message: 'Inscrição confirmada com sucesso!',
+      email: validation.email
     })
     
   } catch (error) {
@@ -30,20 +36,4 @@ export async function POST(request: Request) {
       { status: 500 }
     )
   }
-}
-
-// Helper function to generate confirmation token
-export function generateConfirmationToken(email: string): string {
-  const token = crypto.randomBytes(32).toString('hex')
-  confirmationTokens.set(token, { email, timestamp: Date.now() })
-  
-  // Clean up old tokens (older than 24 hours)
-  const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000)
-  for (const [t, data] of confirmationTokens.entries()) {
-    if (data.timestamp < oneDayAgo) {
-      confirmationTokens.delete(t)
-    }
-  }
-  
-  return token
 }
