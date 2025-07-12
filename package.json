@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "optimize-images": "node scripts/optimize-images.js",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "setup-admin": "node scripts/setup-admin-passwords.js"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^15.3.5",

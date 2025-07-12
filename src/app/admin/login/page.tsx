@@ -22,7 +22,7 @@ export default function AdminLoginPage() {
     console.log('Tentando fazer login com:', { username });
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('/api/auth/login-v2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
