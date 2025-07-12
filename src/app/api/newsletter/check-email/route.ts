@@ -12,7 +12,11 @@ export async function POST(request: Request) {
     console.log(`Checking status for email: ${email}`)
 
     // Verificar em todas as tabelas
-    const results = {
+    const results: {
+      subscribers: any,
+      backup: any,
+      tokens: any
+    } = {
       subscribers: null,
       backup: null,
       tokens: null
