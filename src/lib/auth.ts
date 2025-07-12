@@ -2,20 +2,54 @@ import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
 
-// Usuários autorizados
-const AUTHORIZED_USERS = [
-  {
-    username: 'tamaraleal',
-    password: 'New***159753',
-  },
-  {
-    username: 'johnnyhelder',
-    password: 'New***159753',
-  },
-];
+// Função para criar hash de senha
+function hashPassword(password: string): string {
+  return crypto
+    .createHash('sha256')
+    .update(password + (process.env.AUTH_SALT || 'ferreirasme-2025'))
+    .digest('hex');
+}
 
-// Chave secreta para assinar tokens (em produção, usar variável de ambiente)
-const SECRET_KEY = process.env.AUTH_SECRET || 'ferreirasme-admin-secret-2025';
+// Obter usuários autorizados das variáveis de ambiente
+function getAuthorizedUsers() {
+  const users = [];
+  
+  // Usuário 1
+  if (process.env.ADMIN_USER_1 && process.env.ADMIN_PASS_1) {
+    users.push({
+      username: process.env.ADMIN_USER_1,
+      passwordHash: hashPassword(process.env.ADMIN_PASS_1),
+    });
+  }
+  
+  // Usuário 2
+  if (process.env.ADMIN_USER_2 && process.env.ADMIN_PASS_2) {
+    users.push({
+      username: process.env.ADMIN_USER_2,
+      passwordHash: hashPassword(process.env.ADMIN_PASS_2),
+    });
+  }
+  
+  // Fallback temporário até configurar variáveis no Vercel
+  if (users.length === 0) {
+    console.warn('⚠️  Usando credenciais temporárias. Configure as variáveis de ambiente no Vercel!');
+    users.push(
+      {
+        username: 'tamaraleal',
+        passwordHash: hashPassword('New***159753'),
+      },
+      {
+        username: 'johnnyhelder',
+        passwordHash: hashPassword('New***159753'),
+      }
+    );
+  }
+  
+  return users;
+}
+
+// Chave secreta para assinar tokens
+const SECRET_KEY = process.env.AUTH_SECRET || crypto.randomBytes(32).toString('hex');
 
 // Gerar token de sessão
 export function generateSessionToken(username: string): string {
@@ -69,8 +103,11 @@ export function verifySessionToken(token: string): { valid: boolean; username?: 
 
 // Verificar credenciais
 export function verifyCredentials(username: string, password: string): boolean {
-  return AUTHORIZED_USERS.some(
-    (user) => user.username === username && user.password === password
+  const users = getAuthorizedUsers();
+  const passwordHash = hashPassword(password);
+  
+  return users.some(
+    (user) => user.username === username && user.passwordHash === passwordHash
   );
 }
 
