@@ -15,25 +15,35 @@ export default function NewsletterForm() {
     // Track form start
     analytics.form.start('Newsletter Form')
     
-    // Por enquanto, apenas simula o envio
     setStatus('Enviando...')
     
     try {
-      // Aqui você pode integrar com um serviço de newsletter
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      setStatus('Obrigado! Você será avisado em primeira mão!')
-      
-      // Track successful newsletter signup and conversion
-      analytics.engagement.newsletterSignup(email, true)
-      trackConversion('Newsletter Signup', undefined, {
-        form_name: 'Newsletter Form',
-        user_email_hash: btoa(email), // Basic hash for privacy
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
       })
-      
-      setEmail('')
-      
-      setTimeout(() => setStatus(''), 5000)
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setStatus('Obrigado! Verifique seu email para confirmar.')
+        
+        // Track successful newsletter signup and conversion
+        analytics.engagement.newsletterSignup(email, true)
+        trackConversion('Newsletter Signup', undefined, {
+          form_name: 'Newsletter Form',
+          user_email_hash: btoa(email), // Basic hash for privacy
+        })
+        
+        setEmail('')
+        setTimeout(() => setStatus(''), 10000)
+      } else {
+        setStatus(data.error || 'Erro ao cadastrar. Tente novamente.')
+        setTimeout(() => setStatus(''), 5000)
+      }
     } catch (error) {
       setStatus('Erro ao cadastrar. Tente novamente.')
       
