@@ -73,23 +73,7 @@ export async function POST(request: Request) {
       // ERRO CRÍTICO - Email não foi salvo
       console.error('🚨 CRITICAL: Failed to save email to backup!')
       
-      // Enviar email de emergência para admin
-      try {
-        await resend.emails.send({
-          from: 'Ferreiras.Me <noreply@ferreiras.me>',
-          to: 'contacto@ferreirasme.com',
-          subject: '🚨 URGENTE: Falha ao salvar email de inscrito',
-          html: `
-            <h2 style="color: red;">ATENÇÃO: Email não foi salvo no backup!</h2>
-            <p><strong>Email:</strong> ${sanitizedEmail}</p>
-            <p><strong>Data:</strong> ${new Date().toLocaleString('pt-PT')}</p>
-            <p><strong>IP:</strong> ${ipAddress}</p>
-            <p>Por favor, adicione manualmente este email à lista!</p>
-          `
-        })
-      } catch (e) {
-        console.error('Failed to send emergency notification:', e)
-      }
+      // Log crítico no console - verificar logs do Vercel em caso de falha
     }
     
     // Tentar salvar no banco de dados (se configurado)
@@ -106,7 +90,10 @@ export async function POST(request: Request) {
     const confirmationUrl = `${baseUrl}/confirmar-newsletter?token=${confirmationToken}`
 
     // Enviar correio eletrónico de confirmação para o utilizador
-    await resend.emails.send({
+    console.log(`Attempting to send confirmation email to: ${sanitizedEmail}`)
+    
+    try {
+      const emailResult = await resend.emails.send({
       from: 'Ferreiras.Me <noreply@ferreiras.me>',
       to: sanitizedEmail,
       subject: 'Confirme a sua inscrição - Ferreiras.Me',
@@ -154,21 +141,15 @@ export async function POST(request: Request) {
           </div>
         </div>
       `
-    })
+      })
+      
+      console.log(`Email sent successfully to ${sanitizedEmail}. Result:`, emailResult)
+    } catch (emailError) {
+      console.error(`Failed to send email to ${sanitizedEmail}:`, emailError)
+      // Continuar mesmo se o email falhar - o backup foi salvo
+    }
 
-    // Enviar notificação para o administrador
-    await resend.emails.send({
-      from: 'Ferreiras.Me <noreply@ferreiras.me>',
-      to: 'contacto@ferreirasme.com',
-      subject: 'Nova Inscrição na Newsletter - Ferreiras.Me',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #FFD700;">Nova Inscrição na Newsletter</h2>
-          <p><strong>Correio eletrónico:</strong> ${sanitizedEmail}</p>
-          <p><strong>Data:</strong> ${new Date().toLocaleString('pt-PT')}</p>
-        </div>
-      `
-    })
+    // Removido: Notificação para admin - usar páginas admin em vez disso
 
     return NextResponse.json({ 
       success: true, 
