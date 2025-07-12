@@ -26,8 +26,12 @@ export default function DebugPage() {
 
   const loadAllData = async () => {
     try {
+      // Debug: verificar configuração
+      console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+      console.log('Supabase configured:', !!supabase)
+      
       if (!supabase) {
-        setData(prev => ({ ...prev, error: 'Supabase not configured' }))
+        setData(prev => ({ ...prev, error: 'Supabase not configured - check environment variables' }))
         setLoading(false)
         return
       }
