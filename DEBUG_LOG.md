@@ -1,5 +1,33 @@
 # 📋 Log de Debug - Ferreiras.Me
 
+## 12/07/2025 20:00 - Sistema de Descadastro Robusto Implementado
+
+### 🔧 Problema identificado:
+- Email era reconhecido mas não conseguia ser removido devido a problemas de RLS no Supabase
+
+### ✅ Solução implementada:
+1. **Sistema de lista de descadastrados**: 
+   - Arquivo `src/lib/unsubscribed.ts` gerencia lista de emails descadastrados
+   - Tenta salvar no Supabase (tabela `newsletter_unsubscribed`)
+   - Fallback para arquivo local se Supabase falhar
+   
+2. **API de descadastro melhorada**:
+   - Tenta deletar diretamente do banco
+   - Se falhar, adiciona à lista de descadastrados
+   - Sempre retorna sucesso se conseguir marcar como descadastrado
+
+3. **Filtro automático na listagem**:
+   - API `/api/newsletter/list` agora filtra emails descadastrados
+   - Garante que emails descadastrados não apareçam nas listas
+
+### 📝 Para executar no Supabase:
+```sql
+-- Criar tabela e adicionar email de teste
+-- Ver arquivo: supabase-unsubscribed-table.sql
+```
+
+---
+
 ## 12/07/2025 18:30 - Sistema de Newsletter Completamente Melhorado
 
 ### ✅ Implementações realizadas:
