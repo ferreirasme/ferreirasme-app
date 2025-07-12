@@ -3,6 +3,7 @@ import { getNewsletterSubscribers } from '@/lib/newsletter-db'
 import { getBackupEmails } from '@/lib/email-backup'
 import { supabase } from '@/lib/supabase'
 import { cache } from '@/lib/cache'
+import { getUnsubscribedList } from '@/lib/unsubscribed'
 
 export async function GET(request: NextRequest) {
   try {
@@ -103,6 +104,25 @@ export async function GET(request: NextRequest) {
       })
       
       subscribers = Array.from(uniqueEmails.values())
+    }
+
+    // Obter lista de descadastrados
+    let unsubscribedEmails: string[] = []
+    try {
+      const unsubscribedList = await getUnsubscribedList()
+      unsubscribedEmails = unsubscribedList.map(u => u.email.toLowerCase())
+      console.log('Unsubscribed emails:', unsubscribedEmails.length)
+    } catch (err) {
+      console.error('Error loading unsubscribed list:', err)
+    }
+
+    // Filtrar emails descadastrados
+    if (unsubscribedEmails.length > 0) {
+      const beforeFilter = subscribers.length
+      subscribers = subscribers.filter(sub => 
+        !unsubscribedEmails.includes(sub.email.toLowerCase())
+      )
+      console.log(`Filtered out ${beforeFilter - subscribers.length} unsubscribed emails`)
     }
 
     // Ordenar por data de inscrição (mais recente primeiro)

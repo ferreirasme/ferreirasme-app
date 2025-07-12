@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { cache } from '@/lib/cache'
 import { getBackupEmails } from '@/lib/email-backup'
+import { addToUnsubscribed } from '@/lib/unsubscribed'
 
 export async function POST(request: NextRequest) {
   try {
@@ -61,15 +62,24 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Adicionar à lista de descadastrados (solução alternativa)
+    const addedToUnsubscribed = await addToUnsubscribed(email, 'user_request')
+    
+    if (addedToUnsubscribed) {
+      unsubscribed = true
+      console.log(`Added to unsubscribed list: ${email}`)
+    }
+
     // Limpar cache
     cache.clear()
 
-    if (unsubscribed || errors.length > 0) {
-      // Mesmo com erros parciais, consideramos sucesso se pelo menos um funcionou
+    if (unsubscribed || addedToUnsubscribed) {
+      // Sucesso se conseguimos marcar como descadastrado de alguma forma
       return NextResponse.json({
         success: true,
         message: 'O seu correio eletrónico foi removido da nossa lista de newsletter.',
-        errors: errors.length > 0 ? errors : undefined
+        errors: errors.length > 0 ? errors : undefined,
+        method: addedToUnsubscribed ? 'unsubscribed_list' : 'direct_delete'
       })
     } else {
       return NextResponse.json(
