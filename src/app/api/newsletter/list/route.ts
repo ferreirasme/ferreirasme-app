@@ -26,9 +26,9 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    let subscribers = []
-    let backupData = []
-    let errors = []
+    let subscribers: any[] = []
+    let backupData: any[] = []
+    let errors: any[] = []
 
     // Tentar buscar do banco de dados principal
     if (source === 'database' || source === 'hybrid') {
