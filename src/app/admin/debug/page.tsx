@@ -4,8 +4,15 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import Navigation from '@/components/Navigation'
 
+interface DebugData {
+  subscribers: any[]
+  backup: any[]
+  tokens: any[]
+  error: any
+}
+
 export default function DebugPage() {
-  const [data, setData] = useState<any>({
+  const [data, setData] = useState<DebugData>({
     subscribers: [],
     backup: [],
     tokens: [],
@@ -39,7 +46,7 @@ export default function DebugPage() {
         error: subsResult.error || backupResult.error || tokensResult.error
       })
     } catch (err) {
-      setData(prev => ({ ...prev, error: err }))
+      setData((prev: DebugData) => ({ ...prev, error: err }))
     } finally {
       setLoading(false)
     }
