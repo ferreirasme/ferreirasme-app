@@ -41,14 +41,11 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-    // Definir cookie de sessão
-    response.cookies.set('admin-session', sessionToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60, // 24 horas
-      path: '/',
-    });
+    // Definir cookie de sessão com configuração alternativa
+    response.headers.set(
+      'Set-Cookie',
+      `admin-session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${24 * 60 * 60}`
+    );
     
     console.log('API Login: Cookie definido, retornando sucesso');
     return response;

@@ -45,7 +45,12 @@ export default function LoginDebugPage() {
 
       // Teste 2: Verificar cookies
       setTestResult(prev => prev + '2. Verificando cookies...\n');
-      setTestResult(prev => prev + `   document.cookie: ${document.cookie || 'Nenhum cookie visível'}\n\n`);
+      setTestResult(prev => prev + `   document.cookie: ${document.cookie || 'Nenhum cookie visível'}\n`);
+      
+      // Teste API de verificação de cookies
+      const authCheck = await fetch('/api/test-auth');
+      const authData = await authCheck.json();
+      setTestResult(prev => prev + `   API test-auth: ${JSON.stringify(authData)}\n\n`);
 
       // Teste 3: Tentar acessar área protegida
       setTestResult(prev => prev + '3. Testando acesso a área protegida...\n');
