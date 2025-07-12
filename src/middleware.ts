@@ -11,7 +11,8 @@ export function middleware(request: NextRequest) {
     if (request.nextUrl.pathname === '/admin/login' || 
         request.nextUrl.pathname === '/admin/login-debug' ||
         request.nextUrl.pathname === '/admin/test-login-v2' ||
-        request.nextUrl.pathname === '/admin/setup-passwords') {
+        request.nextUrl.pathname === '/admin/setup-passwords' ||
+        request.nextUrl.pathname === '/admin/fix-passwords') {
       console.log('[Middleware] Permitindo acesso a página de login/debug/teste');
       return NextResponse.next()
     }
