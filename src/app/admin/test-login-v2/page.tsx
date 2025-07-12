@@ -50,6 +50,26 @@ export default function TestLoginV2Page() {
     }
   };
   
+  const debugAuth = async () => {
+    setResult('Debug detalhado de autenticação...\n');
+    
+    try {
+      const response = await fetch('/api/admin/debug-auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      const data = await response.json();
+      
+      setResult(JSON.stringify(data, null, 2));
+    } catch (error) {
+      setResult(prev => prev + `\n❌ Erro: ${error}`);
+    }
+  };
+  
   return (
     <div className="min-h-screen bg-black p-8">
       <Card className="max-w-2xl mx-auto">
@@ -76,12 +96,15 @@ export default function TestLoginV2Page() {
             />
           </div>
           
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Button onClick={testLogin}>
               Testar Login V2
             </Button>
             <Button onClick={checkTables} variant="outline">
               Verificar Tabelas
+            </Button>
+            <Button onClick={debugAuth} variant="outline">
+              Debug Completo
             </Button>
           </div>
           

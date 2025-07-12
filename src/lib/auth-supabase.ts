@@ -30,18 +30,26 @@ export async function loginWithSupabase(
 ): Promise<{ success: boolean; token?: string; error?: string }> {
   try {
     const passwordHash = hashPassword(password);
+    console.log('Login attempt for:', username);
+    console.log('Password hash:', passwordHash);
     
-    // Buscar usuário no banco
-    const { data: user, error: userError } = await supabase
+    // Primeiro, buscar apenas por username para debug
+    const { data: userCheck, error: checkError } = await supabase
       .from('admin_users')
-      .select('id, username, is_active')
-      .eq('username', username)
-      .eq('password_hash', passwordHash)
-      .single();
+      .select('id, username, password_hash, is_active')
+      .eq('username', username);
     
-    if (userError || !user) {
-      console.log('Login failed: User not found or wrong password');
-      return { success: false, error: 'Credenciais inválidas' };
+    console.log('User lookup result:', userCheck, 'Error:', checkError);
+    
+    if (!userCheck || userCheck.length === 0) {
+      return { success: false, error: 'Usuário não encontrado' };
+    }
+    
+    // Verificar senha
+    const user = userCheck[0];
+    if (user.password_hash !== passwordHash) {
+      console.log('Password mismatch. Expected:', user.password_hash, 'Got:', passwordHash);
+      return { success: false, error: 'Senha incorreta' };
     }
     
     if (!user.is_active) {
