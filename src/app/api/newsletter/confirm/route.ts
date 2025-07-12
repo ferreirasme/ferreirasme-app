@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { validateConfirmationToken } from '@/lib/newsletter-tokens'
 import { confirmNewsletterSubscriber } from '@/lib/newsletter-db'
+import { updateEmailConfirmationInBackup, backupEmailToFile } from '@/lib/email-backup'
 
 export async function POST(request: Request) {
   try {
@@ -22,9 +23,21 @@ export async function POST(request: Request) {
       )
     }
 
-    // Confirmar no banco de dados
+    // SEMPRE atualizar no backup primeiro
+    const backupUpdated = await updateEmailConfirmationInBackup(validation.email)
+    
+    // Também registrar a confirmação como novo evento
+    await backupEmailToFile({
+      email: validation.email,
+      timestamp: new Date().toISOString(),
+      confirmed: true,
+      source: 'confirmation'
+    })
+    
+    // Tentar confirmar no banco de dados
     const { success } = await confirmNewsletterSubscriber(validation.email)
-    if (!success) {
+    
+    if (!success && !backupUpdated) {
       return NextResponse.json(
         { error: 'Erro ao confirmar inscrição. Tente novamente.' },
         { status: 500 }

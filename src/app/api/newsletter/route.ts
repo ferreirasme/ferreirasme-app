@@ -4,6 +4,7 @@ import DOMPurify from 'isomorphic-dompurify'
 import { rateLimit } from '@/lib/rate-limit'
 import { generateConfirmationToken } from '@/lib/newsletter-tokens'
 import { saveNewsletterSubscriber, checkSubscriberExists } from '@/lib/newsletter-db'
+import { backupEmailToFile, checkEmailInBackup } from '@/lib/email-backup'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -41,27 +42,61 @@ export async function POST(request: Request) {
     // Sanitização
     const sanitizedEmail = DOMPurify.sanitize(email.trim())
 
-    // Verificar se já existe
-    const { exists, confirmed } = await checkSubscriberExists(sanitizedEmail)
-    if (exists && confirmed) {
+    // Verificar se já existe (primeiro no banco, depois no backup)
+    const dbCheck = await checkSubscriberExists(sanitizedEmail)
+    const backupCheck = await checkEmailInBackup(sanitizedEmail)
+    
+    if ((dbCheck.exists && dbCheck.confirmed) || (backupCheck.exists && backupCheck.confirmed)) {
       return NextResponse.json(
         { error: 'Este correio eletrónico já está inscrito na newsletter.' },
         { status: 400 }
       )
     }
+    
+    const exists = dbCheck.exists || backupCheck.exists
 
     // Obter IP e User Agent
     const ipAddress = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || ''
     const userAgent = request.headers.get('user-agent') || ''
 
-    // Salvar no banco de dados
+    // SEMPRE salvar no backup primeiro (mais confiável)
+    const backupSuccess = await backupEmailToFile({
+      email: sanitizedEmail,
+      timestamp: new Date().toISOString(),
+      ip: ipAddress,
+      userAgent,
+      confirmed: false,
+      source: 'subscription'
+    })
+    
+    if (!backupSuccess) {
+      // ERRO CRÍTICO - Email não foi salvo
+      console.error('🚨 CRITICAL: Failed to save email to backup!')
+      
+      // Enviar email de emergência para admin
+      try {
+        await resend.emails.send({
+          from: 'Ferreiras.Me <noreply@ferreiras.me>',
+          to: 'contacto@ferreirasme.com',
+          subject: '🚨 URGENTE: Falha ao salvar email de inscrito',
+          html: `
+            <h2 style="color: red;">ATENÇÃO: Email não foi salvo no backup!</h2>
+            <p><strong>Email:</strong> ${sanitizedEmail}</p>
+            <p><strong>Data:</strong> ${new Date().toLocaleString('pt-PT')}</p>
+            <p><strong>IP:</strong> ${ipAddress}</p>
+            <p>Por favor, adicione manualmente este email à lista!</p>
+          `
+        })
+      } catch (e) {
+        console.error('Failed to send emergency notification:', e)
+      }
+    }
+    
+    // Tentar salvar no banco de dados (se configurado)
     if (!exists) {
       const { success } = await saveNewsletterSubscriber(sanitizedEmail, ipAddress, userAgent)
       if (!success) {
-        return NextResponse.json(
-          { error: 'Erro ao processar inscrição. Tente novamente.' },
-          { status: 500 }
-        )
+        console.warn('Failed to save to database, but backup was successful')
       }
     }
 

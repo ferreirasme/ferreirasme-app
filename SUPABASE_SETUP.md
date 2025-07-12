@@ -1,5 +1,14 @@
 # Configuração do Supabase para Newsletter
 
+## ⚠️ IMPORTANTE: Sistema de Backup Automático
+O sistema agora possui um **backup automático local** que garante que NENHUM email seja perdido, mesmo se o Supabase falhar. Todos os emails são salvos em:
+- `/newsletter-backup/subscribers.json` - Lista completa em JSON
+- `/newsletter-backup/critical-YYYY-MM-DD.txt` - Backup diário em texto
+
+### Páginas de Admin:
+- `/admin/newsletter` - Visualizar emails do banco de dados
+- `/admin/newsletter-backup` - Visualizar emails do backup local (USE EM EMERGÊNCIAS)
+
 ## Passo 1: Criar conta no Supabase
 1. Acesse https://supabase.com
 2. Clique em "Start your project"
