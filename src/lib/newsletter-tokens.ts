@@ -11,11 +11,15 @@ export function generateConfirmationToken(email: string): string {
   
   // Clean up old tokens (older than 24 hours)
   const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000)
-  for (const [t, data] of confirmationTokens.entries()) {
+  const tokensToDelete: string[] = []
+  
+  confirmationTokens.forEach((data, t) => {
     if (data.timestamp < oneDayAgo) {
-      confirmationTokens.delete(t)
+      tokensToDelete.push(t)
     }
-  }
+  })
+  
+  tokensToDelete.forEach(t => confirmationTokens.delete(t))
   
   return token
 }
