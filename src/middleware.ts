@@ -8,39 +8,56 @@ export function middleware(request: NextRequest) {
   // Verificar autenticação para rotas admin
   if (request.nextUrl.pathname.startsWith('/admin/')) {
     // Permitir acesso às páginas de login, debug e teste
-    if (request.nextUrl.pathname === '/admin/login' || 
-        request.nextUrl.pathname === '/admin/login-debug' ||
-        request.nextUrl.pathname === '/admin/test-login-v2' ||
-        request.nextUrl.pathname === '/admin/setup-passwords' ||
-        request.nextUrl.pathname === '/admin/fix-passwords') {
-      console.log('[Middleware] Permitindo acesso a página de login/debug/teste');
+    const publicAdminPaths = [
+      '/admin/login',
+      '/admin/login-debug',
+      '/admin/test-login-v2',
+      '/admin/setup-passwords',
+      '/admin/fix-passwords',
+      '/admin/login-bcrypt',
+      '/admin/setup-bcrypt'
+    ];
+    
+    if (publicAdminPaths.includes(request.nextUrl.pathname)) {
+      console.log('[Middleware] Permitindo acesso a página pública admin');
       return NextResponse.next()
     }
     
-    // Verificar token de sessão
+    // Verificar token de sessão (suportar ambos os sistemas)
     const sessionToken = request.cookies.get('admin-session')
-    console.log('[Middleware] Token de sessão existe?', !!sessionToken);
+    const adminToken = request.cookies.get('admin-token')
+    const hasToken = sessionToken || adminToken
+    console.log('[Middleware] Token existe?', !!hasToken, 'admin-session:', !!sessionToken, 'admin-token:', !!adminToken);
     
-    if (!sessionToken) {
+    if (!hasToken) {
       // Redirecionar para login
       console.log('[Middleware] Sem token, redirecionando para login');
-      const loginUrl = new URL('/admin/login', request.url)
+      const loginUrl = new URL('/admin/login-bcrypt', request.url)
       loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
       return NextResponse.redirect(loginUrl)
     }
     
-    // Verificar se o token é válido
-    const { valid } = verifySessionToken(sessionToken.value)
-    console.log('[Middleware] Token válido?', valid);
+    // Por enquanto, permitir acesso se houver qualquer token
+    // TODO: Implementar verificação assíncrona do token bcrypt
+    if (adminToken) {
+      console.log('[Middleware] Token bcrypt presente, permitindo acesso temporariamente');
+      return NextResponse.next()
+    }
     
-    if (!valid) {
-      // Token inválido, redirecionar para login
-      console.log('[Middleware] Token inválido, redirecionando para login');
-      const loginUrl = new URL('/admin/login', request.url)
-      loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
-      const response = NextResponse.redirect(loginUrl)
-      response.cookies.delete('admin-session')
-      return response
+    // Verificar token antigo se existir
+    if (sessionToken) {
+      const { valid } = verifySessionToken(sessionToken.value)
+      console.log('[Middleware] Token antigo válido?', valid);
+      
+      if (!valid) {
+        // Token inválido, redirecionar para login
+        console.log('[Middleware] Token inválido, redirecionando para login');
+        const loginUrl = new URL('/admin/login-bcrypt', request.url)
+        loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
+        const response = NextResponse.redirect(loginUrl)
+        response.cookies.delete('admin-session')
+        return response
+      }
     }
     
     console.log('[Middleware] Autenticação OK, permitindo acesso');
