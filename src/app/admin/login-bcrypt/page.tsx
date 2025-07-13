@@ -20,7 +20,7 @@ export default function LoginBcryptPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/login-bcrypt', {
+      const response = await fetch('/api/auth/login-unified', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

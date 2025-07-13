@@ -10,12 +10,7 @@ export function middleware(request: NextRequest) {
     // Permitir acesso às páginas de login, debug e teste
     const publicAdminPaths = [
       '/admin/login',
-      '/admin/login-debug',
-      '/admin/test-login-v2',
-      '/admin/setup-passwords',
-      '/admin/fix-passwords',
-      '/admin/login-bcrypt',
-      '/admin/setup-bcrypt'
+      '/admin/login-bcrypt'
     ];
     
     if (publicAdminPaths.includes(request.nextUrl.pathname)) {
@@ -32,7 +27,7 @@ export function middleware(request: NextRequest) {
     if (!hasToken) {
       // Redirecionar para login
       console.log('[Middleware] Sem token, redirecionando para login');
-      const loginUrl = new URL('/admin/login-bcrypt', request.url)
+      const loginUrl = new URL('/admin/login', request.url)
       loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
       return NextResponse.redirect(loginUrl)
     }
@@ -52,7 +47,7 @@ export function middleware(request: NextRequest) {
       if (!valid) {
         // Token inválido, redirecionar para login
         console.log('[Middleware] Token inválido, redirecionando para login');
-        const loginUrl = new URL('/admin/login-bcrypt', request.url)
+        const loginUrl = new URL('/admin/login', request.url)
         loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
         const response = NextResponse.redirect(loginUrl)
         response.cookies.delete('admin-session')

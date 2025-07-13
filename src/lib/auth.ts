@@ -30,26 +30,16 @@ function getAuthorizedUsers() {
     });
   }
   
-  // Fallback temporário até configurar variáveis no Vercel
+  // Se não houver usuários configurados, retornar array vazio
   if (users.length === 0) {
-    console.warn('⚠️  Usando credenciais temporárias. Configure as variáveis de ambiente no Vercel!');
-    users.push(
-      {
-        username: 'tamaraleal',
-        passwordHash: hashPassword('New***159753'),
-      },
-      {
-        username: 'johnnyhelder',
-        passwordHash: hashPassword('New***159753'),
-      }
-    );
+    console.error('❌ Nenhum usuário admin configurado. Configure as variáveis de ambiente!');
   }
   
   return users;
 }
 
 // Chave secreta para assinar tokens
-const SECRET_KEY = process.env.AUTH_SECRET || 'ferreirasme-admin-secret-2025-temporary';
+const SECRET_KEY = process.env.AUTH_SECRET || crypto.randomBytes(32).toString('hex');
 
 // Gerar token de sessão
 export function generateSessionToken(username: string): string {
