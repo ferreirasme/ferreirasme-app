@@ -3,7 +3,6 @@ import type { NextRequest } from 'next/server'
 import { verifySessionToken } from '@/lib/auth'
 
 export function middleware(request: NextRequest) {
-  console.log(`[Middleware] Path: ${request.nextUrl.pathname}`);
   
   // Verificar autenticação para rotas admin
   if (request.nextUrl.pathname.startsWith('/admin/')) {
@@ -14,7 +13,6 @@ export function middleware(request: NextRequest) {
     ];
     
     if (publicAdminPaths.includes(request.nextUrl.pathname)) {
-      console.log('[Middleware] Permitindo acesso a página pública admin');
       return NextResponse.next()
     }
     
@@ -22,11 +20,9 @@ export function middleware(request: NextRequest) {
     const sessionToken = request.cookies.get('admin-session')
     const adminToken = request.cookies.get('admin-token')
     const hasToken = sessionToken || adminToken
-    console.log('[Middleware] Token existe?', !!hasToken, 'admin-session:', !!sessionToken, 'admin-token:', !!adminToken);
     
     if (!hasToken) {
       // Redirecionar para login
-      console.log('[Middleware] Sem token, redirecionando para login');
       const loginUrl = new URL('/admin/login', request.url)
       loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
       return NextResponse.redirect(loginUrl)
@@ -35,18 +31,15 @@ export function middleware(request: NextRequest) {
     // Por enquanto, permitir acesso se houver qualquer token
     // TODO: Implementar verificação assíncrona do token bcrypt
     if (adminToken) {
-      console.log('[Middleware] Token bcrypt presente, permitindo acesso temporariamente');
       return NextResponse.next()
     }
     
     // Verificar token antigo se existir
     if (sessionToken) {
       const { valid } = verifySessionToken(sessionToken.value)
-      console.log('[Middleware] Token antigo válido?', valid);
       
       if (!valid) {
         // Token inválido, redirecionar para login
-        console.log('[Middleware] Token inválido, redirecionando para login');
         const loginUrl = new URL('/admin/login', request.url)
         loginUrl.searchParams.set('returnUrl', request.nextUrl.pathname)
         const response = NextResponse.redirect(loginUrl)
@@ -55,7 +48,6 @@ export function middleware(request: NextRequest) {
       }
     }
     
-    console.log('[Middleware] Autenticação OK, permitindo acesso');
   }
   
   // Clone o response

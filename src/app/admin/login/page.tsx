@@ -19,7 +19,6 @@ export default function AdminLoginPage() {
     setError('');
     setLoading(true);
 
-    console.log('Tentando fazer login com:', { username });
 
     try {
       const response = await fetch('/api/auth/login-unified', {
@@ -30,22 +29,17 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ username, password }),
       });
 
-      console.log('Response status:', response.status);
       const data = await response.json();
-      console.log('Response data:', data);
 
       if (response.ok) {
         // Redirecionar para a página que o usuário estava tentando acessar
         const returnUrl = new URLSearchParams(window.location.search).get('returnUrl') || '/admin/newsletter-all';
-        console.log('Login bem-sucedido, redirecionando para:', returnUrl);
         router.push(returnUrl);
         router.refresh();
       } else {
-        console.error('Erro no login:', data.error);
         setError(data.error || 'Credenciais inválidas');
       }
     } catch (error) {
-      console.error('Erro ao fazer login:', error);
       setError('Erro ao fazer login. Tente novamente.');
     } finally {
       setLoading(false);

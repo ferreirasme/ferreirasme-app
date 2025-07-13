@@ -98,7 +98,6 @@ export async function verifyCredentials(username: string, password: string): Pro
   const users = getAuthorizedUsers();
   
   if (users.length === 0) {
-    console.error('Nenhum usuário admin configurado!');
     return false;
   }
   
@@ -118,13 +117,11 @@ export async function verifyCredentials(username: string, password: string): Pro
       // Isso é apenas para desenvolvimento local
       if (process.env.NODE_ENV !== 'production') {
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log(`Hash bcrypt para ${username}: ${hashedPassword}`);
         return password === user.passwordHash; // Comparação simples para dev
       }
       return false;
     }
   } catch (error) {
-    console.error('Erro ao verificar credenciais:', error);
     return false;
   }
 }

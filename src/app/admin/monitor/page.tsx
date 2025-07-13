@@ -83,7 +83,6 @@ export default function MonitorPage() {
       setStatus(systemStatus)
       setLastUpdate(new Date())
     } catch (error) {
-      console.error('Monitor error:', error)
     } finally {
       setLoading(false)
     }
@@ -269,11 +268,8 @@ export default function MonitorPage() {
               <a href="/admin/newsletter" className="text-yellow-400 hover:text-yellow-300 text-sm">
                 → Newsletter Admin
               </a>
-              <a href="/admin/newsletter-debug" className="text-yellow-400 hover:text-yellow-300 text-sm">
-                → Debug Newsletter
-              </a>
-              <a href="/admin/test-supabase" className="text-yellow-400 hover:text-yellow-300 text-sm">
-                → Testar Supabase
+              <a href="/admin/newsletter-all" className="text-yellow-400 hover:text-yellow-300 text-sm">
+                → Newsletter Completo
               </a>
               <a href="/admin/status" className="text-yellow-400 hover:text-yellow-300 text-sm">
                 → Status Detalhado

@@ -21,7 +21,6 @@ export async function loginWithBcrypt(
   userAgent?: string
 ): Promise<{ success: boolean; token?: string; error?: string }> {
   try {
-    console.log('Login attempt for:', username);
     
     // Buscar usuário
     const { data: users, error: userError } = await supabase
@@ -30,7 +29,6 @@ export async function loginWithBcrypt(
       .eq('username', username);
     
     if (userError || !users || users.length === 0) {
-      console.log('User not found:', userError);
       return { success: false, error: 'Utilizador não encontrado' };
     }
     
@@ -45,7 +43,6 @@ export async function loginWithBcrypt(
     const isValidPassword = await bcrypt.compare(password, user.password_hash);
     
     if (!isValidPassword) {
-      console.log('Invalid password');
       return { success: false, error: 'Senha incorreta' };
     }
     
@@ -65,7 +62,6 @@ export async function loginWithBcrypt(
       });
     
     if (sessionError) {
-      console.error('Failed to create session:', sessionError);
       return { success: false, error: 'Erro ao criar sessão' };
     }
     
@@ -77,7 +73,6 @@ export async function loginWithBcrypt(
     
     return { success: true, token: sessionToken };
   } catch (error) {
-    console.error('Login error:', error);
     return { success: false, error: 'Erro interno' };
   }
 }
@@ -122,7 +117,6 @@ export async function verifySessionBcrypt(token: string): Promise<{
       userId: session.user_id
     };
   } catch (error) {
-    console.error('Session verification error:', error);
     return { valid: false };
   }
 }
@@ -137,7 +131,6 @@ export async function logoutBcrypt(token: string): Promise<boolean> {
     
     return !error;
   } catch (error) {
-    console.error('Logout error:', error);
     return false;
   }
 }
@@ -150,7 +143,6 @@ export async function cleanExpiredSessions(): Promise<void> {
       .delete()
       .lt('expires_at', new Date().toISOString());
   } catch (error) {
-    console.error('Clean sessions error:', error);
   }
 }
 
