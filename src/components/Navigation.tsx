@@ -42,7 +42,7 @@ export default function Navigation({ className }: NavigationProps) {
           <div className="flex items-center justify-between h-20">
             {/* Brand Name */}
             <Link href="/" className="relative z-10">
-              <span className="text-2xl md:text-3xl font-light tracking-wider text-yellow-400">
+              <span className="text-xl sm:text-2xl md:text-3xl font-light tracking-wider text-yellow-400">
                 FERREIRAS.ME
               </span>
             </Link>
@@ -98,7 +98,7 @@ export default function Navigation({ className }: NavigationProps) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed right-0 top-0 bottom-0 w-80 bg-background/95 backdrop-blur-md z-50 lg:hidden overflow-y-auto"
+              className="fixed right-0 top-0 bottom-0 w-full max-w-sm bg-background/95 backdrop-blur-md z-50 lg:hidden overflow-y-auto"
             >
               <div className="p-6">
                 {/* Close Button */}
@@ -111,7 +111,7 @@ export default function Navigation({ className }: NavigationProps) {
 
                 {/* Brand Name */}
                 <div className="mb-8">
-                  <span className="text-2xl font-light tracking-wider text-yellow-400">
+                  <span className="text-xl font-light tracking-wider text-yellow-400 block">
                     FERREIRAS.ME
                   </span>
                 </div>
@@ -159,11 +159,13 @@ export default function Navigation({ className }: NavigationProps) {
                   </a>
 
                   <a
-                    href="tel:+351999999999"
+                    href="https://wa.me/351912465539"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center space-x-3 text-foreground/60 hover:text-yellow-400 transition-colors"
                   >
                     <Phone className="w-5 h-5" />
-                    <span>+351 999 999 999</span>
+                    <span>+351 912 465 539</span>
                   </a>
                 </div>
               </div>
