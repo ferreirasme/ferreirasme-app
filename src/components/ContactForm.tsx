@@ -116,7 +116,7 @@ export default function ContactForm() {
       const data = await response.json()
 
       if (response.ok) {
-        setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contacto em breve.')
+        setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.')
         setSubmitStatus('success')
         setFormData({ name: '', email: '', message: '' })
         setErrors({ name: '', email: '', message: '' })

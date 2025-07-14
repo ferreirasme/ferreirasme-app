@@ -59,13 +59,13 @@ export async function POST(request: Request) {
     // Enviar email via Resend
     const data = await resend.emails.send({
       from: 'Ferreiras.Me <noreply@ferreiras.me>',
-      to: 'contacto@ferreiras.me',
+      to: 'contato@ferreirasme.com',
       reply_to: sanitizedEmail,
-      subject: `Novo contacto via site - ${sanitizedName}`,
+      subject: `Novo contato via site - ${sanitizedName}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #FFD700; border-bottom: 2px solid #FFD700; padding-bottom: 10px;">
-            Novo Contacto via Site
+            Novo Contato via Site
           </h2>
           
           <div style="margin: 20px 0; background-color: #f5f5f5; padding: 20px; border-radius: 8px;">
@@ -78,12 +78,12 @@ export async function POST(request: Request) {
           </div>
           
           <div style="margin-top: 30px; padding: 20px; background-color: #FFD700; color: black; border-radius: 8px;">
-            <p style="margin: 0; font-weight: bold;">📧 Responda diretamente a este correio eletrónico para entrar em contacto com ${sanitizedName}</p>
+            <p style="margin: 0; font-weight: bold;">📧 Responda diretamente a este correio eletrónico para entrar em contato com ${sanitizedName}</p>
           </div>
           
           <hr style="margin: 30px 0; border: none; border-top: 1px solid #ddd;">
           <p style="font-size: 12px; color: #666; text-align: center;">
-            Este correio eletrónico foi enviado através do formulário de contacto do site Ferreiras.Me
+            Este correio eletrónico foi enviado através do formulário de contato do site Ferreiras.Me
           </p>
         </div>
       `

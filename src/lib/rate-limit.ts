@@ -47,7 +47,7 @@ export async function rateLimit(identifier?: string) {
   }
 }
 
-// Rate limiter específico para API de contacto (mais restritivo)
+// Rate limiter específico para API de contato (mais restritivo)
 export async function contactRateLimit() {
   const headersList = await headers()
   const forwardedFor = headersList.get('x-forwarded-for')
@@ -75,7 +75,7 @@ export async function contactRateLimit() {
   const remainingRequests = await limiter.removeTokens(1)
   
   if (remainingRequests < 0) {
-    throw new Error('Demasiados pedidos de contacto. Por favor, tente novamente mais tarde.')
+    throw new Error('Demasiados pedidos de contato. Por favor, tente novamente mais tarde.')
   }
 
   return {
