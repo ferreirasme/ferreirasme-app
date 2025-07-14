@@ -31,14 +31,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://ferreirasme.com'),
+  metadataBase: new URL('https://ferreiras.me'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'Ferreiras.Me - Semijoias Exclusivas | Joias de Luxo',
     description: 'Descubra a coleção exclusiva de semijoias Ferreiras.Me. Peças de luxo com design único, qualidade premium e elegância incomparável.',
-    url: 'https://ferreirasme.com',
+    url: 'https://ferreiras.me',
     siteName: 'Ferreiras.Me',
     images: [
       {
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'google-site-verification-code',
+    // google: 'adicionar-código-de-verificação-aqui',
   },
 }
 
@@ -83,8 +83,8 @@ export default function RootLayout({
     '@type': 'JewelryStore',
     name: 'Ferreiras.Me',
     description: 'Semijoias exclusivas com design único, qualidade premium e elegância incomparável.',
-    url: 'https://ferreirasme.com',
-    logo: 'https://ferreirasme.com/logo.png',
+    url: 'https://ferreiras.me',
+    logo: 'https://ferreiras.me/logo.png',
     image: 'https://ferreirasme.com/logo.png',
     address: {
       '@type': 'PostalAddress',

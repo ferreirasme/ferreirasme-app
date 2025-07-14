@@ -58,8 +58,8 @@ export default function ContactoPage() {
                       <Mail className="w-5 h-5 text-yellow-400 mt-1" />
                       <div>
                         <p className="font-light text-foreground/80">Correio Eletrónico</p>
-                        <a href="mailto:contacto@ferreirasme.com" className="text-foreground hover:text-yellow-400 transition-colors">
-                          contacto@ferreirasme.com
+                        <a href="mailto:contacto@ferreiras.me" className="text-foreground hover:text-yellow-400 transition-colors">
+                          contacto@ferreiras.me
                         </a>
                       </div>
                     </div>

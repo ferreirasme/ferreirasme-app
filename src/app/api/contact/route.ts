@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     // Enviar email via Resend
     const data = await resend.emails.send({
       from: 'Ferreiras.Me <noreply@ferreiras.me>',
-      to: 'contacto@ferreirasme.com',
+      to: 'contacto@ferreiras.me',
       reply_to: sanitizedEmail,
       subject: `Novo contacto via site - ${sanitizedName}`,
       html: `

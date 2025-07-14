@@ -151,11 +151,11 @@ export default function Navigation({ className }: NavigationProps) {
                   </a>
 
                   <a
-                    href="mailto:contacto@ferreirasme.com"
+                    href="mailto:contacto@ferreiras.me"
                     className="flex items-center space-x-3 text-foreground/60 hover:text-yellow-400 transition-colors"
                   >
                     <Mail className="w-5 h-5" />
-                    <span>contacto@ferreirasme.com</span>
+                    <span>contacto@ferreiras.me</span>
                   </a>
 
                   <a
