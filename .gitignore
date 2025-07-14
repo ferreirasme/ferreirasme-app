@@ -39,9 +39,9 @@ next-env.d.ts
 # newsletter backup
 /newsletter-backup
 
-# documentação interna (não subir até repo ser privado)
-CLAUDE.md
-PROJECT_STATUS.md
-COMMANDS.md
-SUPABASE_SETUP.md
+# documentação interna
+.docs/
+*.md
+!README.md
 supabase-*.sql
+*.sql
